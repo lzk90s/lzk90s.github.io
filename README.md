@@ -20,8 +20,8 @@
 ---
 
 [编译原理](doc/language/compile.md)  
-[设计模式](doc/language/designmod.md)  
-[语言的共性](doc/language/lang.md)  
+[语言的共性](doc/language/lang.md)
+
 [assembly](doc/language/asm.md)  
 [c/c++](doc/language/cpp.md)  
 [java](doc/language/java.md)  
@@ -29,6 +29,13 @@
 [shell](doc/language/shell.md)  
 [python](doc/language/python.md)  
 [javascript](doc/language/javascript.md)
+
+## 架构和设计
+
+---
+
+[设计模式](doc/design/designmod.md)  
+[领域驱动设计 DDD](doc/design/ddd.md)
 
 ## 中间件及框架
 
@@ -40,7 +47,8 @@
 [redis](doc/middleware/redis.md)  
 [kafka](doc/middleware/kafka.md)  
 [nginx](doc/middleware/nginx.md)  
-[arthas](doc/middleware/arthas.md)
+[arthas](doc/middleware/arthas.md)  
+[spring-boot](doc/middleware/springboot.md)
 
 ## 源码学习
 
