@@ -1,5 +1,18 @@
 # 网络：实现
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [网络：实现](#网络实现)
+  - [select 的实现（轮巡方式）](#select-的实现轮巡方式)
+  - [poll 的实现（轮巡方式）](#poll-的实现轮巡方式)
+  - [epoll 的实现（回调方式）](#epoll-的实现回调方式)
+  - [reactor 模式](#reactor-模式)
+  - [proactor 模式](#proactor-模式)
+
+<!-- /code_chunk_output -->
+
 ## select 的实现（轮巡方式）
 
 select 函数监视的文件描述符分 3 类，分别是 writefds、readfds、和 exceptfds。调用后 select 函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有 except），或者超时（timeout 指定等待时间，如果立即返回设为 null 即可），函数返回。当 select 函数返回后，可以通过遍历 fdset，来找到就绪的描述符。

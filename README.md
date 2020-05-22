@@ -52,6 +52,12 @@
 [spring-boot](doc/framework/springboot.md)  
 [libevent](doc/framework/libevent.md)
 
+## 常用数据结构与算法
+
+---
+
+[树](doc/algorithm/tree.md)
+
 ## 开发运维
 
 ---
@@ -87,5 +93,5 @@
 [ffmpeg](doc/middleware/ffmpeg.md)
 
 **大数据**  
-[spark](doc/bigdata/spark.md)  
-[flink](doc/bigdata/flink.md)
+[spark](doc/middleware/spark.md)  
+[flink](doc/middleware/flink.md)
