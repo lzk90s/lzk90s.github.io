@@ -56,7 +56,7 @@
 
 ---
 
-[常用数据结构](doc/algorithm/data_structure.md)
+[常用数据结构](doc/algorithm/data_structure.md)  
 [常用容器](doc/algorithm/container.md)
 
 ## 开发运维
