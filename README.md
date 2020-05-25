@@ -28,8 +28,9 @@
 [java](doc/language/java.md)  
 [go](doc/language/golang.md)  
 [shell](doc/language/shell.md)  
-[python](doc/language/python.md)  
-[javascript](doc/language/javascript.md)
+[python](doc/language/python.md)
+
+<!-- [javascript](doc/language/javascript.md) -->
 
 [gdb](doc/devtool/gdb.md)  
 [gun binutils](doc/devtool/binutils.md)

@@ -1,5 +1,7 @@
 # linux
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
 ## Linux 内核
 
 ![kernel](linux_kernel.png)
@@ -23,7 +25,7 @@
 
 ### 内存管理
 
-### 驱动
+### 设备驱动
 
 ### VFS 文件系统
 
@@ -32,5 +34,3 @@
 ## 内核态和用户态
 
 ## Linux 常用命令
-
-### 命令参数规律
