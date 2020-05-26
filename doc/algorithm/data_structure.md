@@ -125,7 +125,9 @@ void PostOrderTraverse(BiTree T)
 
 #### 红黑树的应用场景
 
-Java 用它来实现 TreeMap, C++的 std::set/map/multimap 等等
+Java 用它来实现 TreeMap
+C++的 std::set/map/multimap
+linux 的 epoll 管理连接等等
 
 ### B(balance)树
 
@@ -137,7 +139,9 @@ Java 用它来实现 TreeMap, C++的 std::set/map/multimap 等等
 
 ## 散列表（HASH，key 打散后映射到插槽中，要处理冲突）
 
-冲突处理：链表法
+冲突处理：链表法（链表可以换为红黑树，查询性能更好）
 ![hash](hash.png)
+
+散列表冲突过多时，需要考虑扩容，扩容后，把数据全部重新分配一遍。
 
 ## 图结构

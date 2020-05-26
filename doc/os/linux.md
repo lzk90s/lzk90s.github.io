@@ -2,6 +2,22 @@
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
+<!-- code_chunk_output -->
+
+- [linux](#linux)
+  - [Linux 内核](#linux-内核)
+    - [进程管理及调度](#进程管理及调度)
+      - [进程的生命周期](#进程的生命周期)
+    - [进程间通信](#进程间通信)
+    - [内存管理](#内存管理)
+    - [设备驱动](#设备驱动)
+    - [VFS 文件系统](#vfs-文件系统)
+    - [网络](#网络)
+  - [内核态和用户态](#内核态和用户态)
+  - [Linux 常用命令](#linux-常用命令)
+
+<!-- /code_chunk_output -->
+
 ## Linux 内核
 
 ![kernel](linux_kernel.png)

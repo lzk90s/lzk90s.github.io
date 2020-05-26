@@ -31,7 +31,33 @@ poll 本质上和 select 没有区别，它将用户传入的数组拷贝到内�
 
 ## epoll 的实现（回调方式）
 
-epoll 支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些 fd 刚刚变为就绪态，并且只会通知一次。还有一个特点是，epoll 使用“事件”的就绪通知方式，通过 epoll_ctl 注册 fd，一旦该 fd 就绪，内核就会采用类似 callback 的回调机制来激活该 fd，epoll_wait 便可以收到通知。
+epoll 使用“事件”的就绪通知方式，通过 epoll_ctl 注册 fd，一旦该 fd 就绪，内核就会采用类似 callback 的回调机制来激活该 fd，epoll_wait 便可以收到通知。
+
+```c++
+int epoll_create(int size);
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+int epoll_wait(int epfd, struct epoll_event *events,int maxevents, int timeout);
+
+// linux kernel
+// 当某一进程调用epoll_create方法时，Linux内核会创建一个eventpoll结构体
+struct eventpoll {
+　　...
+　　/*红黑树的根节点，这棵树中存储着所有添加到epoll中的事件，
+　　也就是这个epoll监控的事件*/
+　　struct rb_root rbr;
+　　/*双向链表rdllist保存着将要通过epoll_wait返回给用户的、满足条件的事件*/
+　　struct list_head rdllist;
+　　...
+};
+
+/*
+一颗红黑树，一张准备就绪句柄链表，少量的内核 cache，就帮我们解决了大并发下的 socket 处理问题。
+1. 执行 epoll_create()时，创建了红黑树和就绪链表；
+2. 执行 epoll_ctl()时，如果增加 socket 句柄，则检查在红黑树中是否存在，存在立即返回，不存在则添加到树干上，
+然后向内核注册回调函数，用于当中断事件来临时向准备就绪链表中插入数据；
+4. 执行 epoll_wait()时立刻返回准备就绪链表里的数据即可。
+*/
+```
 
 epoll 的优点：
 
