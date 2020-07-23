@@ -40,7 +40,8 @@
 ---
 
 [设计模式](doc/design/designmod.md)  
-[领域驱动设计 DDD](doc/design/ddd.md)
+[领域驱动设计 DDD](doc/design/ddd.md)  
+[分布式&高可用](doc/design/distribute.md)
 
 ## 框架和库
 
