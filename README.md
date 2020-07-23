@@ -59,7 +59,7 @@
 [k8s](doc/devops/k8s.md)  
 [istio(TODO)](doc/devops/istio.md)
 
-## 常用中间件及软件
+## 常用框架 & 中间件
 
 ---
 
