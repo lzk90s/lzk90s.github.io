@@ -60,15 +60,20 @@
 [k8s](doc/devops/k8s.md)  
 [istio(TODO)](doc/devops/istio.md)
 
-## 常用框架 & 中间件
+## 常用框架
 
 ---
 
+| 领域分类    | 链接                                                           |
+| :---------- | :------------------------------------------------------------- |
+| rpc 框架    | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md) |
+| java 基础库 | [guava](doc/framework/guava.md), [jdk](doc/framework/jdk.md)   |
+| spring 系   | [spring & spring-boot](doc/framework/springboot.md)            |
+
+## 常用中间件
+
 | 领域分类       | 链接                                                               |
 | :------------- | :----------------------------------------------------------------- |
-| rpc 框架       | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md)     |
-| java 基础库    | [guava](doc/framework/guava.md), [jdk](doc/framework/jdk.md)       |
-| spring 系      | [spring & spring-boot](doc/framework/springboot.md)                |
 | web            | [nginx](doc/middleware/nginx.md)                                   |
 | 消息队列       | [kafka](doc/middleware/kafka.md)                                   |
 | 调试分析       | [arthas](doc/middleware/arthas.md)                                 |
