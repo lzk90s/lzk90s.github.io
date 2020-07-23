@@ -41,7 +41,7 @@
 
 [设计模式](doc/design/designmod.md)  
 [领域驱动设计 DDD](doc/design/ddd.md)  
-[分布式&高可用](doc/design/distribute.md)
+[分布式架构 & 高可用](doc/design/distribute.md)
 
 ## 框架和库
 
@@ -51,7 +51,7 @@
 [dubbo](doc/framework/dubbo.md)  
 [guava](doc/framework/guava.md)  
 [jdk](doc/framework/jdk.md)  
-[spring-boot](doc/framework/springboot.md)  
+[spring & spring-boot](doc/framework/springboot.md)  
 [libevent](doc/framework/libevent.md)
 
 ## 数据结构、容器、算法
@@ -70,31 +70,17 @@
 [k8s](doc/devops/k8s.md)  
 [istio](doc/devops/istio.md)
 
-## 领域中间件
+## 常用中间件及软件
 
 ---
 
-**web**  
-[nginx](doc/middleware/nginx.md)
-
-**消息队列**  
-[kafka](doc/middleware/kafka.md)
-
-**调试及分析器**  
-[arthas](doc/middleware/arthas.md)
-
-**数据库**  
-[mysql](doc/middleware/mysql.md)
-
-**缓存**  
-[redis](doc/middleware/redis.md)
-
-**搜索**  
-[elasticsearch](doc/middleware/elasticsearch.md)
-
-**流媒体**  
-[ffmpeg](doc/middleware/ffmpeg.md)
-
-**大数据**  
-[spark](doc/middleware/spark.md)  
-[flink](doc/middleware/flink.md)
+| 分类     | 名称          | 详细                                                              |
+| :------- | :------------ | :---------------------------------------------------------------- |
+| web      | nginx         | [nginx](doc/middleware/nginx.md)                                  |
+| 消息队列 | kafka         | [kafka](doc/middleware/kafka.md)                                  |
+| 调试分析 | arthas        | [arthas](doc/middleware/arthas.md)                                |
+| 数据库   | mysql         | [mysql](doc/middleware/mysql.md)                                  |
+| 缓存     | redis         | [redis](doc/middleware/redis.md)                                  |
+| 搜索     | elasticsearch | [elasticsearch](doc/middleware/elasticsearch.md)                  |
+| 流媒体   | ffmpeg        | [ffmpeg](doc/middleware/ffmpeg.md)                                |
+| 大数据   | spark         | [spark](doc/middleware/spark.md),[flink](doc/middleware/flink.md) |
