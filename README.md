@@ -43,17 +43,6 @@
 [领域驱动设计 DDD](doc/design/ddd.md)  
 [分布式架构 & 高可用](doc/design/distribute.md)
 
-## 框架和库
-
----
-
-[brpc](doc/framework/brpc.md)  
-[dubbo](doc/framework/dubbo.md)  
-[guava](doc/framework/guava.md)  
-[jdk](doc/framework/jdk.md)  
-[spring & spring-boot](doc/framework/springboot.md)  
-[libevent](doc/framework/libevent.md)
-
 ## 数据结构、容器、算法
 
 ---
@@ -61,26 +50,29 @@
 [常用数据结构](doc/algorithm/data_structure.md)  
 [常用容器的底层实现](doc/algorithm/container.md)
 
-## 开发运维
+## 开发 & 运维
 
 ---
 
 [devops](doc/devops/devops.md)  
 [docker](doc/devops/docker.md)  
 [k8s](doc/devops/k8s.md)  
-[istio](doc/devops/istio.md)
+[istio(TODO)](doc/devops/istio.md)
 
 ## 常用中间件及软件
 
 ---
 
-| 分类     | 名称          | 详细                                                              |
-| :------- | :------------ | :---------------------------------------------------------------- |
-| web      | nginx         | [nginx](doc/middleware/nginx.md)                                  |
-| 消息队列 | kafka         | [kafka](doc/middleware/kafka.md)                                  |
-| 调试分析 | arthas        | [arthas](doc/middleware/arthas.md)                                |
-| 数据库   | mysql         | [mysql](doc/middleware/mysql.md)                                  |
-| 缓存     | redis         | [redis](doc/middleware/redis.md)                                  |
-| 搜索     | elasticsearch | [elasticsearch](doc/middleware/elasticsearch.md)                  |
-| 流媒体   | ffmpeg        | [ffmpeg](doc/middleware/ffmpeg.md)                                |
-| 大数据   | spark         | [spark](doc/middleware/spark.md),[flink](doc/middleware/flink.md) |
+| 分类           | 链接                                                               |
+| :------------- | :----------------------------------------------------------------- |
+| rpc 框架       | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md)     |
+| java 基础库    | [guava](doc/framework/guava.md), [jdk](doc/framework/jdk.md)       |
+| spring 系      | [spring & spring-boot](doc/framework/springboot.md)                |
+| web            | [nginx](doc/middleware/nginx.md)                                   |
+| 消息队列       | [kafka](doc/middleware/kafka.md)                                   |
+| 调试分析       | [arthas](doc/middleware/arthas.md)                                 |
+| 数据库         | [mysql](doc/middleware/mysql.md)                                   |
+| 缓存           | [redis](doc/middleware/redis.md)                                   |
+| 搜索           | [elasticsearch](doc/middleware/elasticsearch.md)                   |
+| 流媒体         | [ffmpeg](doc/middleware/ffmpeg.md)                                 |
+| 大数据（TODO） | [spark](doc/middleware/spark.md), [flink](doc/middleware/flink.md) |
