@@ -12,11 +12,12 @@
 ---
 
 [linux](doc/os/linux.md)  
-[RT-Thread](doc/os/rtthread.md)  
 [网络：协议](doc/network/protocol.md)  
 [网络：实现](doc/network/implement.md)
 
-## 语言及开发工具
+<!-- [RT-Thread](doc/os/rtthread.md) -->
+
+## 语言 & 开发工具
 
 ---
 
@@ -35,7 +36,7 @@
 [gdb](doc/devtool/gdb.md)  
 [gun binutils](doc/devtool/binutils.md)
 
-## 架构和设计
+## 架构 & 设计
 
 ---
 
@@ -43,14 +44,14 @@
 [领域驱动设计 DDD](doc/design/ddd.md)  
 [分布式架构 & 高可用](doc/design/distribute.md)
 
-## 数据结构、容器、算法
+## 数据结构 & 容器 & 算法
 
 ---
 
 [常用数据结构](doc/algorithm/data_structure.md)  
 [常用容器的底层实现](doc/algorithm/container.md)
 
-## 开发 & 运维
+## 开发运维
 
 ---
 
@@ -63,7 +64,7 @@
 
 ---
 
-| 分类           | 链接                                                               |
+| 领域分类       | 链接                                                               |
 | :------------- | :----------------------------------------------------------------- |
 | rpc 框架       | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md)     |
 | java 基础库    | [guava](doc/framework/guava.md), [jdk](doc/framework/jdk.md)       |
