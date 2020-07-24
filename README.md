@@ -26,7 +26,7 @@
 
 [assembly](doc/language/asm.md)  
 [c/c++](doc/language/cpp.md)  
-[java](doc/language/java.md)  
+[java](doc/language/java.md), [jvm 虚拟机](doc/language/jvm.md)  
 [go](doc/language/golang.md)  
 [shell](doc/language/shell.md)  
 [python](doc/language/python.md)
@@ -67,7 +67,7 @@
 | 领域分类    | 链接                                                           |
 | :---------- | :------------------------------------------------------------- |
 | rpc 框架    | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md) |
-| java 基础库 | [guava](doc/framework/guava.md), [jdk](doc/framework/jdk.md)   |
+| java 基础库 | [guava](doc/framework/guava.md)                                |
 | spring 系   | [spring & spring-boot](doc/framework/springboot.md)            |
 
 ## 常用中间件
