@@ -24,7 +24,7 @@
 [编译原理](doc/language/compile.md)  
 [语言的共性](doc/language/lang.md)
 
-[assembly](doc/language/asm.md)  
+[assembly(x64)](doc/language/asm.md)  
 [c/c++](doc/language/cpp.md)  
 [java](doc/language/java.md), [java 并发包](doc/language/java_concurrent.md), [jvm 虚拟机](doc/language/jvm.md)  
 [go](doc/language/golang.md)  
