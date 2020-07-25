@@ -42,7 +42,8 @@
 
 [设计模式](doc/design/designmod.md)  
 [领域驱动设计 DDD](doc/design/ddd.md)  
-[分布式架构 & 高可用](doc/design/distribute.md)
+[分布式架构](doc/design/distribute.md)  
+[微服务](doc/design/microservice.md)
 
 ## 数据结构 & 容器 & 算法
 

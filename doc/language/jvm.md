@@ -23,4 +23,18 @@
 
 ## GC 算法
 
+### CMS
+
+### G1
+
+### 触发垃圾回收的场景
+
+1. 当 Eden 区和幸存区 From 满时
+2. 调用 System.gc()或 Runtime.getRuntime().gc()时，不一定会执行 Full GC
+3. 老年代空间不足
+4. 方法区空间不足
+5. 通过 Minor GC 后进入老年代的平均大小大于老年代的可用内存
+6. 幸存区 From 到幸存区 To 时发现 To 空间不足转向老年代且老年代可用内存不够
+7. 老年代写满会触发 Full GC 8.持久代被写满会触发 Full GC 9.手动调用 gc 方法会触发 Full GC
+
 ### stop-the-world
