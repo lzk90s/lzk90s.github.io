@@ -125,9 +125,9 @@
 
 ## jvm 中的垃圾回收器
 
-新生代收集器：Serial、ParNew、Parallel Scavenge
-老年代收集器：CMS、Serial Old、Parallel Old
-整堆收集器： G1
+- 新生代收集器：Serial、ParNew、Parallel Scavenge
+- 老年代收集器：CMS、Serial Old、Parallel Old
+- 整堆收集器： G1
 
 ![garbage_collector](java/garbage_collector.png)
 
