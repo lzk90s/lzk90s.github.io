@@ -5,6 +5,7 @@
 <!-- code_chunk_output -->
 
 - [java concurrent 包](#java-concurrent-包)
+  - [整体结构](#整体结构)
   - [Atomic](#atomic)
     - [synchronized 作用于静态方法和非静态方法的区别？](#synchronized-作用于静态方法和非静态方法的区别)
     - [synchronized 的实现原理](#synchronized-的实现原理)
@@ -23,9 +24,9 @@
     - [Lock 和 synchronized 的区别？](#lock-和-synchronized-的区别)
     - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
   - [同步辅助类](#同步辅助类)
-    - [CountDownLatch 的用途和原理](#countdownlatch-的用途和原理)
-    - [Semaphore 的用途和原理](#semaphore-的用途和原理)
-    - [CyclicBarrier 的用途和原理](#cyclicbarrier-的用途和原理)
+    - [CountDownLatch 的用途](#countdownlatch-的用途)
+    - [Semaphore 的用途](#semaphore-的用途)
+    - [CyclicBarrier 的用途](#cyclicbarrier-的用途)
     - [CountDownLatch 和 CyclicBarrier 的区别？](#countdownlatch-和-cyclicbarrier-的区别)
   - [并发集合](#并发集合)
     - [分段锁的原理：ConcurrentHashMap](#分段锁的原理concurrenthashmap)

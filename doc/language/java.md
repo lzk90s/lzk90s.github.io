@@ -10,35 +10,8 @@
   - [String 常量池](#string-常量池)
   - [自动拆箱装箱](#自动拆箱装箱)
   - [ClassNotFoundException 和 NoClassDefFoundException 的区别？](#classnotfoundexception-和-noclassdeffoundexception-的区别)
-  - [多线程](#多线程)
-    - [线程池 ThreadPoolExecutor](#线程池-threadpoolexecutor)
-    - [java 中线程池种类](#java-中线程池种类)
-    - [BlockingQueue](#blockingqueue)
-    - [java 实现定时器的几种方法](#java-实现定时器的几种方法)
-    - [java 创建线程的几种方法](#java-创建线程的几种方法)
-    - [ThreadLocal](#threadlocal)
-    - [synchronized 作用于静态方法和非静态方法的区别？](#synchronized-作用于静态方法和非静态方法的区别)
-    - [synchronized 的实现原理](#synchronized-的实现原理)
-    - [volatile 关键字的作用](#volatile-关键字的作用)
-    - [jvm 中的主内存和工作内存](#jvm-中的主内存和工作内存)
-  - [锁](#锁)
-    - [锁的实现思路](#锁的实现思路)
-    - [乐观锁和悲观锁](#乐观锁和悲观锁)
-    - [乐观锁的实现：CAS（compare and swap）](#乐观锁的实现cascompare-and-swap)
-    - [什么是 CAS 的自旋](#什么是-cas-的自旋)
-    - [什么是 ABA 问题？](#什么是-aba-问题)
-    - [ABA 问题的影响](#aba-问题的影响)
-    - [如何解决 ABA 问题？](#如何解决-aba-问题)
-    - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
-    - [AtomicXXX 的原理](#atomicxxx-的原理)
-    - [Lock 和 synchronized 的区别？](#lock-和-synchronized-的区别)
-    - [分段锁的原理：ConcurrentHashMap](#分段锁的原理concurrenthashmap)
-    - [HashMap, HashTable, ConcurrentHashMap 的区别？](#hashmap-hashtable-concurrenthashmap-的区别)
-    - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
-    - [CountDownLatch 的用途和原理](#countdownlatch-的用途和原理)
-    - [Semaphore 的用途和原理](#semaphore-的用途和原理)
-    - [CyclicBarrier 的用途和原理](#cyclicbarrier-的用途和原理)
-    - [CountDownLatch 和 CyclicBarrier 的区别？](#countdownlatch-和-cyclicbarrier-的区别)
+  - [sleep 和 wait 的区别？](#sleep-和-wait-的区别)
+  - [三种代理模式](#三种代理模式)
   - [java 命令常用参数](#java-命令常用参数)
   - [jdk 中的其他命令](#jdk-中的其他命令)
     - [jstack](#jstack)
@@ -81,14 +54,14 @@ public static Integer valueOf(int i) {
 - jvm 的 classloader 加载类时，如果在 classpath 中没有找到 class,则是 ClassNotFoundException，通常是设置 classpath 不对，或者缺少 java 包。
 - class 如果加载成功之后，会有一个该类的类对象（class 对象），当在内存当中没有找到这个类对象，就会出现 NotClassDefFoundError，通常是因为 class 中存在 static 方法，static 方法执行失败导致 class 没有加载到内存中。
 
-## java 命令常用参数
+## sleep 和 wait 的区别？
 
-- -Xss512K 指定 JVM 的栈大小
-- Xms 指定 JVM 初始占用的堆内存大小
-- -Xmx 指定 JVM 最大堆内存大小
+1. sleep 方法是线程类 Thread 的静态方法，调用该方法会使线程进入睡眠状态，让出执行机会给其他线程，等到时间到了，线程进入就绪状态与其他线程一起竞争 CPU 执行时间
+2. sleep 是静态方法，他不能改变对象的锁，当一个 synchronized 块中调用了 sleep，线程虽然进入了休眠，但是对象锁没有被释放，其他线程无法访问这个对象
+3. wait 是 Object 方法，当一个线程执行到 wait 方法时，他就进入到一个和该对象相关的池，同时释放锁，是的其他线程能够访问，可以通过 notify，notifyAll 方法来唤醒
 
-## jdk 中的其他命令
+## 三种代理模式
 
-### jstack
+### jdk 中的 Proxy
 
-### jmap
+### aspectj
