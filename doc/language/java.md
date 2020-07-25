@@ -12,10 +12,8 @@
   - [ClassNotFoundException 和 NoClassDefFoundException 的区别？](#classnotfoundexception-和-noclassdeffoundexception-的区别)
   - [sleep 和 wait 的区别？](#sleep-和-wait-的区别)
   - [三种代理模式](#三种代理模式)
-  - [java 命令常用参数](#java-命令常用参数)
-  - [jdk 中的其他命令](#jdk-中的其他命令)
-    - [jstack](#jstack)
-    - [jmap](#jmap)
+    - [jdk 中的 Proxy](#jdk-中的-proxy)
+    - [aspectj](#aspectj)
 
 <!-- /code_chunk_output -->
 
