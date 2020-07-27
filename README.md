@@ -74,13 +74,14 @@
 
 ---
 
-| 领域分类       | 链接                                                               |
-| :------------- | :----------------------------------------------------------------- |
-| web            | [nginx](doc/middleware/nginx.md)                                   |
-| 消息队列       | [kafka](doc/middleware/kafka.md)                                   |
-| 调试分析       | [arthas](doc/middleware/arthas.md)                                 |
-| 数据库         | [mysql](doc/middleware/mysql.md)                                   |
-| 缓存           | [redis](doc/middleware/redis.md)                                   |
-| 搜索           | [elasticsearch](doc/middleware/elasticsearch.md)                   |
-| 流媒体         | [ffmpeg](doc/middleware/ffmpeg.md)                                 |
-| 大数据（TODO） | [spark](doc/middleware/spark.md), [flink](doc/middleware/flink.md) |
+| 领域分类       | 链接                                             |
+| :------------- | :----------------------------------------------- |
+| web            | [nginx](doc/middleware/nginx.md)                 |
+| 消息队列       | [kafka](doc/middleware/kafka.md)                 |
+| 调试分析       | [arthas](doc/middleware/arthas.md)               |
+| 数据库         | [mysql](doc/middleware/mysql.md)                 |
+| 缓存           | [redis](doc/middleware/redis.md)                 |
+| 搜索           | [elasticsearch](doc/middleware/elasticsearch.md) |
+| 流媒体         | [ffmpeg](doc/middleware/ffmpeg.md)               |
+| 分布式事务     | [Seata](doc/middleware/seata.md)                 |
+| 大数据（TODO） | spark, flink                                     |
