@@ -21,8 +21,10 @@
     - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
     - [AtomicXXX 的原理](#atomicxxx-的原理)
   - [Lock](#lock)
-    - [Lock 和 synchronized 的区别？](#lock-和-synchronized-的区别)
     - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
+    - [AQS 的原理](#aqs-的原理)
+    - [Lock 和 synchronized 的区别？](#lock-和-synchronized-的区别)
+  - [公平锁/非公平锁](#公平锁非公平锁)
   - [同步辅助类](#同步辅助类)
     - [CountDownLatch 的用途](#countdownlatch-的用途)
     - [Semaphore 的用途](#semaphore-的用途)
@@ -117,6 +119,17 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 
 ## Lock
 
+### AQS（AbstractQueuedSynchronizer）是什么？
+
+- 抽象同步队列，AQS 定义了一套多线程访问共享资源的同步器框架，ReentrantLock/Semaphore/CountDownLatch 都有使用 AQS
+- 核心数据结构 双向链表+state（锁状态） 底层操作 CAS
+
+### AQS 的原理
+
+1. AQS 内部使用双向链表，用于保存等待的线程。
+2. 当线程竞争锁失败，会把线程构造成一个 Node,加入到双向链表中，同时阻塞该线程。
+3. 当获取到锁的线程 unlock 锁后，会从队列中唤醒一个阻塞节点执行。
+
 ### Lock 和 synchronized 的区别？
 
 - synchronized 是关键字，Lock 是 jdk 中的接口
@@ -126,10 +139,10 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 - synchronized 的锁可重入、不可中断、非公平，而 Lock 锁可重入，可判断，可中断，可公平。
 - synchronized 是一个悲观锁，Lock 是一个乐观锁（底层基于 volatile 和 cas 实现）
 
-### AQS（AbstractQueuedSynchronizer）是什么？
+## 公平锁/非公平锁
 
-- 抽象同步队列，AQS 定义了一套多线程访问共享资源的同步器框架，ReentrantLock/Semaphore/CountDownLatch 都有使用 AQS
-- 核心数据结构 双向链表+state（锁状态） 底层操作 CAS
+- 公平锁: 公平锁指多个线程按照申请顺序来依次获取锁
+- 非公平锁: 非公平锁指多个线程获取锁的顺序并不是按照顺序来获取的，可以中途抢占
 
 ## 同步辅助类
 

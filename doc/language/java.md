@@ -8,12 +8,18 @@
   - [==和 equals 的区别](#和-equals-的区别)
   - [包装类的常量池](#包装类的常量池)
   - [String 常量池](#string-常量池)
+  - [String 为什么要设置成 final 的？](#string-为什么要设置成-final-的)
   - [自动拆箱装箱](#自动拆箱装箱)
   - [ClassNotFoundException 和 NoClassDefFoundException 的区别？](#classnotfoundexception-和-noclassdeffoundexception-的区别)
   - [sleep 和 wait 的区别？](#sleep-和-wait-的区别)
   - [三种代理模式](#三种代理模式)
-    - [jdk 中的 Proxy](#jdk-中的-proxy)
-    - [aspectj](#aspectj)
+    - [静态代理（implement interface）](#静态代理implement-interface)
+    - [jdk 中的 Proxy.newProxyInstance 动态代理（implement interface）](#jdk-中的-proxynewproxyinstance-动态代理implement-interface)
+    - [cglib 代理（extends class）](#cglib-代理extends-class)
+  - [集合容器](#集合容器)
+    - [HashMap 的实现](#hashmap-的实现)
+    - [HashMap 的死循环](#hashmap-的死循环)
+  - [Java IO](#java-io)
 
 <!-- /code_chunk_output -->
 
@@ -40,6 +46,13 @@ public static Integer valueOf(int i) {
 - 直接使用双引号声明出来的 String 对象会直接存储在常量池中，例如，String str = "111"
 - string 可以通过 intern()方法，把一个字符串加入常量池中，例如，String str = new String("111").intern()
 
+## String 为什么要设置成 final 的？
+
+- 为了实现字符串池
+- 安全问题
+- 多线程传递字符串不用加锁，线程安全
+- 为了实现 String 可以创建 HashCode 不可变性
+
 ## 自动拆箱装箱
 
 - 简单来说装箱就是自动将基本数据类型转换为包装器类型，拆箱就是自动将包装器类型转化为基本类型。
@@ -60,6 +73,32 @@ public static Integer valueOf(int i) {
 
 ## 三种代理模式
 
-### jdk 中的 Proxy
+### 静态代理（implement interface）
 
-### aspectj
+- 被代理对象与代理对象需要一起实现相同的接口或者是继承相同父类，因此要定义一个接口或抽象类。
+- 根据相同的 interface, 自己手动写代理类
+- 必须要存在 interface
+
+### jdk 中的 Proxy.newProxyInstance 动态代理（implement interface）
+
+- 使用 jdk 中的 Proxy.newProxyInstance 方法，根据 interface,来生成代理对象。
+- 不需要自己 implements interface
+- 必须要存在 interface
+
+### cglib 代理（extends class）
+
+- JDK 的动态代理有一个限制,就是使用动态代理的对象必须实现一个或多个接口,如果想代理没有实现接口的类,就可以使用 Cglib 实现.
+- 由于 cglib 使用的是 extends 父类的方法，所以，代理的类不能为 final,否则会报错。
+
+## 集合容器
+
+### HashMap 的实现
+
+- HashMap 的数据结构是哈希表结构（数组+链表+红黑树）实现，默认数组长度 16，数组在超过 75%时扩容，每次乘 2，链表长度超过 8 时链表转为红黑树，小于 6 又转为链表
+- 可以创建一个线程安全的 HashMap，Collections.synchronizedMap(new HashMap<>())
+
+### HashMap 的死循环
+
+多线程时，HashMap 有可能发生死循环，HashMap 的死循环一般发生在 rehash 的时候，会形成环形链表，导致死循环。
+
+## Java IO
