@@ -65,11 +65,10 @@
 
 ---
 
-| 领域分类    | 链接                                                           |
-| :---------- | :------------------------------------------------------------- |
-| rpc 框架    | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md) |
-| java 基础库 | [guava](doc/framework/guava.md)                                |
-| spring 系   | [spring & spring-boot](doc/framework/springboot.md)            |
+| 领域分类  | 链接                                                           |
+| :-------- | :------------------------------------------------------------- |
+| spring 系 | [spring & spring-boot](doc/framework/springboot.md)            |
+| rpc 框架  | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md) |
 
 ## 常用中间件
 
