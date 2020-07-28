@@ -20,6 +20,7 @@
     - [如何解决 ABA 问题？](#如何解决-aba-问题)
     - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
     - [AtomicXXX 的原理](#atomicxxx-的原理)
+    - [LongAdder](#longadder)
   - [Lock](#lock)
     - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
     - [AQS 的原理](#aqs-的原理)
@@ -116,6 +117,8 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 
 1. 使用 volatile 保存变量，保证多线程变量的可见性，使缓存失效。
 2. 用 CAS+自旋方式，实现原子操作
+
+### LongAdder 的原理
 
 ## Lock
 
