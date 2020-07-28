@@ -20,7 +20,7 @@
     - [如何解决 ABA 问题？](#如何解决-aba-问题)
     - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
     - [AtomicXXX 的原理](#atomicxxx-的原理)
-    - [LongAdder](#longadder)
+    - [LongAdder 的原理](#longadder-的原理)
   - [Lock](#lock)
     - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
     - [AQS 的原理](#aqs-的原理)

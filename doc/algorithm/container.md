@@ -25,7 +25,8 @@
 | Stack             | Vector                                                                                   |
 | HashMap (java1.7) | 底层实现是数组+链表                                                                      |
 | HashMap (java1.8) | 数组+链表+红黑树，当冲突链表长度大于 8 时，链表转为红黑树，小于等于 6 时，红黑树转为链表 |
-| LinkedHashMap     | HashMap + 双向链表（保证插入和读取顺序一致）                                             |
+| LinkedHashMap     | HashMap + 双向链表，插入顺序有序                                                         |
+| TreeMap           | 按照 key 升序                                                                            |
 | HashSet           | HashMap                                                                                  |
 | LinkedHashSet     | LinkedHashMap + 双向链表（保证插入和读取顺序一致）                                       |
 | TreeSet           | 带全排序的集合容器                                                                       |

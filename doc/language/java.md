@@ -18,7 +18,10 @@
     - [cglib 代理（extends class）](#cglib-代理extends-class)
   - [集合容器](#集合容器)
     - [HashMap 的实现](#hashmap-的实现)
+    - [HashMap 的 hash 方法](#hashmap-的-hash-方法)
     - [HashMap 的死循环](#hashmap-的死循环)
+    - [有没有有序的 Map？](#有没有有序的-map)
+  - [JAVA 中容器的数据结构实现](#java-中容器的数据结构实现)
   - [Java IO](#java-io)
 
 <!-- /code_chunk_output -->
@@ -88,7 +91,8 @@ public static Integer valueOf(int i) {
 ### cglib 代理（extends class）
 
 - JDK 的动态代理有一个限制,就是使用动态代理的对象必须实现一个或多个接口,如果想代理没有实现接口的类,就可以使用 Cglib 实现.
-- 由于 cglib 使用的是 extends 父类的方法，所以，代理的类不能为 final,否则会报错。
+- cglib 既可以代理 interface,又可以代理 class
+- 由于 cglib 对 class 代理时使用的是 extends 父类的方法，所以，代理的类不能为 final,否则会报错。
 
 ## 集合容器
 
@@ -97,8 +101,49 @@ public static Integer valueOf(int i) {
 - HashMap 的数据结构是哈希表结构（数组+链表+红黑树）实现，默认数组长度 16，数组在超过 75%时扩容，每次乘 2，链表长度超过 8 时链表转为红黑树，小于 6 又转为链表
 - 可以创建一个线程安全的 HashMap，Collections.synchronizedMap(new HashMap<>())
 
+### HashMap 的 hash 方法
+
+这段代码叫“扰动函数”，是为了减少 hash 碰撞的概率。
+
+```java
+//Java 8中的散列值优化函数
+static final int hash(Object key) {
+  int h;
+  return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16); //key.hashCode()为哈希
+}
+```
+
+右位移 16 位，正好是 32bit 的一半，自己的高半区和低半区做异或，就是为了混合原始哈希码的高位和低位，以此来加大低位的随机性。而且混合后的低位掺杂了高位的部分特征，这样高位的信息也被变相保留下来。
+
 ### HashMap 的死循环
 
 多线程时，HashMap 有可能发生死循环，HashMap 的死循环一般发生在 rehash 的时候，会形成环形链表，导致死循环。
+
+### 有没有有序的 Map？
+
+LinkedHashMap：在 HashMap 的基础上，又在内部增加了一个链表，用以存放元素的顺序。可以分为插入有序和访问有序。默认插入有序方式
+TreeMap：按照 key 有序
+
+## JAVA 中容器的数据结构实现
+
+![java_container](java/java_container.png)
+
+| 容器              | 数据结构                                                                                 |
+| :---------------- | :--------------------------------------------------------------------------------------- |
+| ArrayList         | 数组                                                                                     |
+| Vector            | 数组                                                                                     |
+| LinkedList        | 双向链表                                                                                 |
+| Stack             | Vector                                                                                   |
+| HashMap (java1.7) | 底层实现是数组+链表                                                                      |
+| HashMap (java1.8) | 数组+链表+红黑树，当冲突链表长度大于 8 时，链表转为红黑树，小于等于 6 时，红黑树转为链表 |
+| LinkedHashMap     | HashMap + 双向链表，插入顺序有序                                                         |
+| TreeMap           | 按照 key 升序                                                                            |
+| HashSet           | HashMap                                                                                  |
+| LinkedHashSet     | LinkedHashMap + 双向链表（保证插入和读取顺序一致）                                       |
+| TreeSet           | 带全排序的集合容器                                                                       |
+
+> 问：java HashMap 和 LinkedHashMap 的区别？
+>
+> HashMap 是无序的，当我们希望有顺序地去存储 key-value 时，就需要使用 LinkedHashMap 了，LinkedHashMap 默认的构造参数是默认 插入顺序的，就是说你插入的是什么顺序，读出来的就是什么顺序。
 
 ## Java IO
