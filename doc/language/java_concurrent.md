@@ -37,6 +37,7 @@
     - [CopyOnWriteList](#copyonwritelist)
   - [线程池](#线程池)
     - [线程池 ThreadPoolExecutor](#线程池-threadpoolexecutor)
+    - [线程池满了丢弃策略有哪些？](#线程池满了丢弃策略有哪些)
     - [java 中线程池种类](#java-中线程池种类)
     - [BlockingQueue](#blockingqueue)
     - [java 实现定时器的几种方法](#java-实现定时器的几种方法)
@@ -237,6 +238,13 @@ public ThreadPoolExecutor(int corePoolSize,
 3. 当线程数大于等于核心线程数，且任务队列已满
    - 若线程数小于最大线程数，创建线程
    - 若线程数等于最大线程数，抛出异常，拒绝任务
+
+### 线程池满了丢弃策略有哪些？
+
+1. 终止 AbortPolicy
+2. 直接丢掉 DiscardPolicy
+3. 把最早的丢掉 DiscardOldestPolicy
+4. 继续执行 CallerRunsPolicy
 
 ### java 中线程池种类
 

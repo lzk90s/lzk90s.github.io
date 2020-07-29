@@ -5,9 +5,11 @@
 <!-- code_chunk_output -->
 
 - [mysql](#mysql)
+  - [数据类型](#数据类型)
   - [InnoDB 存储引擎](#innodb-存储引擎)
   - [MyISAM 存储引擎](#myisam-存储引擎)
   - [索引](#索引)
+    - [hash 索引和 B+树索引的区别](#hash-索引和-b树索引的区别)
   - [数据库事务](#数据库事务)
     - [ACID](#acid)
     - [事务并发的问题](#事务并发的问题)
@@ -15,6 +17,7 @@
     - [mysql 默认事务隔离级别](#mysql-默认事务隔离级别)
     - [redo log](#redo-log)
     - [undo log](#undo-log)
+    - [read view](#read-view)
     - [mysql MVCC（Multi-Version Concurrency Control：多版本并发控制）的实现原理](#mysql-mvccmulti-version-concurrency-control多版本并发控制的实现原理)
     - [mysql 的表锁和行锁](#mysql-的表锁和行锁)
     - [MyISAM 的锁](#myisam-的锁)
@@ -24,11 +27,24 @@
 
 <!-- /code_chunk_output -->
 
+## 数据类型
+
+1. 数值类型
+   整数类型包括 TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT，浮点数类型包括 FLOAT 和 DOUBLE，定点数类型为 DECIMAL。
+2. 日期/时间类型
+   包括 YEAR、TIME、DATE、DATETIME 和 TIMESTAMP。
+3. 字符串类型
+   包括 CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM 和 SET 等。
+4. 二进制类型
+   包括 BIT、BINARY、VARBINARY、TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB。
+
 ## InnoDB 存储引擎
 
 ## MyISAM 存储引擎
 
 ## 索引
+
+### hash 索引和 B+树索引的区别
 
 ## 数据库事务
 
@@ -69,7 +85,9 @@
 
 ### undo log
 
-undo log 是 MVCC 实现的一个重要依赖
+undo log 是 MVCC 实现的一个重要依赖，回滚的时候要用到 undo log
+
+### read view
 
 ### mysql MVCC（Multi-Version Concurrency Control：多版本并发控制）的实现原理
 
