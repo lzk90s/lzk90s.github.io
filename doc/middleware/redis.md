@@ -1,5 +1,33 @@
 # redis
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [redis](#redis)
+  - [redis 和 memcached 的区别？](#redis-和-memcached-的区别)
+  - [redis 的数据类型](#redis-的数据类型)
+  - [redis 高性能的原因](#redis-高性能的原因)
+  - [Redis 如何做持久化](#redis-如何做持久化)
+  - [Redis 集群模式](#redis-集群模式)
+  - [redis 集群模式的 一致性 hash 算法](#redis-集群模式的-一致性-hash-算法)
+  - [Redis 做异步队列](#redis-做异步队列)
+  - [缓存穿透是什么?](#缓存穿透是什么)
+  - [缓存击穿是什么？](#缓存击穿是什么)
+  - [缓存雪崩是什么？](#缓存雪崩是什么)
+  - [LRU（Least Recently Used：最近最少使用）是什么](#lruleast-recently-used最近最少使用是什么)
+  - [LRU 的实现方法](#lru-的实现方法)
+  - [redis 内存淘汰机制](#redis-内存淘汰机制)
+  - [redis 集群模式添加/删除节点重新分配 slot](#redis-集群模式添加删除节点重新分配-slot)
+  - [redis 事务](#redis-事务)
+
+<!-- /code_chunk_output -->
+
+## redis 和 memcached 的区别？
+
+- redis 支持的类型更多
+- redis 可以持久化
+
 ## redis 的数据类型
 
 1. 字符串类型（String) 常规的 get/set 操作，value 可以是 String 也可以是数字，一般做一些复杂的记数功能缓存
@@ -7,8 +35,6 @@
 3. 哈希类型(Hash) 这里 value 存放的是结构化对象，类似于 map
 4. 集合类型(Set) 存放的是一堆不重复的集合
 5. 有序集合(ZSet) 多了一个权重 score，集合中的元素能够按 score 进行排列
-
-## redis 一致性 hash 算法
 
 ## redis 高性能的原因
 
@@ -18,11 +44,11 @@
 
 ## Redis 如何做持久化
 
-1. RDB（内存快照）持久化：保存某个时间点的全量数据快照，分为手动触发和自动触发。
+1. RDB（Redis database 内存快照）持久化：保存某个时间点的全量数据快照，分为手动触发和自动触发。
    优点：全量数据快照，文件小，恢复快，
    缺点：最近一次数据可能会丢失，数据量大有瓶颈。
 
-2. AOF（Append-Only-File 日志文件）持久化：记录每次对服务器写的操作，当服务器重启的时候会重新执行。
+2. AOF（Append Only File 日志文件）持久化：记录每次对服务器写的操作，当服务器重启的时候会重新执行。
    优点：可读性高，适合保存增量数据，不易丢失，
    缺点：但是文件体积大，恢复时间长
 
@@ -36,6 +62,10 @@ RDB 是全量存储，AOF 是增量存储。
 1. 主从复制 主节点写，从节点读。不具备容错和恢复能力，因为是单点读写
 2. 哨兵模式 启动独立进程，检测主从节点随时切换，可多哨兵相互监控
 3. 集群模式 实现了缓存的分布式存储，使用 Hash 槽
+
+## redis 集群模式的 一致性 hash 算法
+
+使用 hash 槽方式，和 hash 环类似。
 
 ## Redis 做异步队列
 
@@ -78,6 +108,17 @@ key 对应的数据存在，但在 redis 中过期，此时若有大量并发请
 map + 双向链表
 
 map 中存数据，双向链表保存访问顺序。put 和 get 的时候，把节点放到双向链表的头部。当超过容量的时候，从尾部删除，尾部的数据是最少使用到的。
+
+## redis 内存淘汰机制
+
+- volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
+- volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
+- volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
+- allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
+- allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
+- no-enviction（驱逐）：禁止驱逐数据
+
+volatile 和 allkeys 规定了是对已设置过期时间的数据集淘汰数据还是从全部数据集淘汰数据，后面的 lru、ttl 以及 random 是三种不同的淘汰策略，再加上一种 no-enviction 永不回收的策略。
 
 ## redis 集群模式添加/删除节点重新分配 slot
 

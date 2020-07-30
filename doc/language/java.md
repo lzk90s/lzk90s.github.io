@@ -18,9 +18,10 @@
     - [jdk 中的 Proxy.newProxyInstance 动态代理（implement interface）](#jdk-中的-proxynewproxyinstance-动态代理implement-interface)
     - [cglib 代理（extends class）](#cglib-代理extends-class)
   - [集合容器](#集合容器)
-    - [HashMap 的实现](#hashmap-的实现)
+    - [HashMap1.7 的实现](#hashmap17-的实现)
+    - [HashMap 1.8 的实现](#hashmap-18-的实现)
     - [HashMap 的 hash 方法](#hashmap-的-hash-方法)
-    - [HashMap 的死循环](#hashmap-的死循环)
+    - [jdk1.7 的 HashMap 的死循环](#jdk17-的-hashmap-的死循环)
     - [有没有有序的 Map？](#有没有有序的-map)
   - [JAVA 中容器的数据结构实现](#java-中容器的数据结构实现)
   - [Java IO](#java-io)
@@ -105,10 +106,16 @@ public static Integer valueOf(int i) {
 
 ## 集合容器
 
-### HashMap 的实现
+### HashMap1.7 的实现
+
+数据结构：采用了数组+单链表的实现
+冲突解决：链表+头插法
+扩容：75%
+
+### HashMap 1.8 的实现
 
 - HashMap 的数据结构是哈希表结构（数组+链表+红黑树）实现，默认数组长度 16，数组在超过 75%时扩容，每次乘 2，链表长度超过 8 时链表转为红黑树，小于 6 又转为链表
-- 可以创建一个线程安全的 HashMap，Collections.synchronizedMap(new HashMap<>())
+- 可以创建一个线程安全的 HashMap，Collections.synchronizedMap(new HashMap<>())，不过实现方式比较粗暴，直接对 map 的方法加 synchronized
 
 ### HashMap 的 hash 方法
 
@@ -124,9 +131,10 @@ static final int hash(Object key) {
 
 右位移 16 位，正好是 32bit 的一半，自己的高半区和低半区做异或，就是为了混合原始哈希码的高位和低位，以此来加大低位的随机性。而且混合后的低位掺杂了高位的部分特征，这样高位的信息也被变相保留下来。
 
-### HashMap 的死循环
+### jdk1.7 的 HashMap 的死循环
 
-多线程时，HashMap 有可能发生死循环，HashMap 的死循环一般发生在 rehash 的时候，会形成环形链表，导致死循环。
+rehash 时，链表使用的是前插法，前插法会让链表数据顺序颠倒，就有可能会导致死循环。
+jdk1.8 中，采用了尾插法，不会有循环链表出现，所以解决了 1.7 中的链表前插法导致的死循环，但是 HashMap 任然不是线程安全的。
 
 ### 有没有有序的 Map？
 

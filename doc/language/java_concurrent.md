@@ -32,7 +32,8 @@
     - [CyclicBarrier 的用途](#cyclicbarrier-的用途)
     - [CountDownLatch 和 CyclicBarrier 的区别？](#countdownlatch-和-cyclicbarrier-的区别)
   - [并发集合](#并发集合)
-    - [分段锁的原理：ConcurrentHashMap](#分段锁的原理concurrenthashmap)
+    - [jdk1.7 ConcurrentHashMap 如何保证线程安全？](#jdk17-concurrenthashmap-如何保证线程安全)
+    - [jdk1.8 ConcurrentHashMap 如何保证线程安全？](#jdk18-concurrenthashmap-如何保证线程安全)
     - [HashMap, HashTable, ConcurrentHashMap 的区别？](#hashmap-hashtable-concurrenthashmap-的区别)
     - [CopyOnWriteList](#copyonwritelist)
   - [线程池](#线程池)
@@ -173,10 +174,14 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 
 ## 并发集合
 
-### 分段锁的原理：ConcurrentHashMap
+### jdk1.7 ConcurrentHashMap 如何保证线程安全？
 
 - 分段锁的思想是把大锁拆分成小锁，把数据分段。
 - ConcurrentHashMap 使用 Segment（分段锁）技术，将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，能够实现真正的并发访问。所以说，ConcurrentHashMap 在并发情况下，不仅保证了线程安全，而且提高了性能。
+
+### jdk1.8 ConcurrentHashMap 如何保证线程安全？
+
+- jdk1.8 中，采用了 synchronized+CAS 方式来保证线程安全。锁的粒度更小。
 
 ### HashMap, HashTable, ConcurrentHashMap 的区别？
 

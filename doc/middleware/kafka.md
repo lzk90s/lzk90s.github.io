@@ -11,6 +11,11 @@
   - [kafka producer 的消息发送到哪一个 partition](#kafka-producer-的消息发送到哪一个-partition)
   - [kafka 为什么那么快](#kafka-为什么那么快)
   - [kafka 中 zookeeper 的作用](#kafka-中-zookeeper-的作用)
+  - [kafka producer 发送数据，ack 为 0， 1， -1 的时候代表啥？request.required.acks](#kafka-producer-发送数据ack-为-0-1-1-的时候代表啥requestrequiredacks)
+  - [Kafka 判断一个节点是否还活着有那两个条件？](#kafka-判断一个节点是否还活着有那两个条件)
+  - [ISR（in-sync replicas）是什么？](#isrin-sync-replicas是什么)
+  - [kafka 再平衡](#kafka-再平衡)
+  - [kafka 如何保证消息只发送一次](#kafka-如何保证消息只发送一次)
 
 <!-- /code_chunk_output -->
 
@@ -45,11 +50,11 @@ Zookeeper：kafka 集群依赖 zookeeper 来保存集群的的元信息，来保
 
 ## kafka 为什么那么快
 
-- Cache Filesystem Cache PageCache 缓存
-- 顺序写 由于现代的操作系统提供了预读和写技术，磁盘的顺序写大多数情况下比随机写内存还要快。
-- Zero-copy 零拷技术减少拷贝次数
-- Batching of Messages 批量量处理。合并小的请求，然后以流的方式进行交互，直顶网络上限。
-- Pull 拉模式 使用拉模式进行消息的获取消费，与消费端处理能力相符。
+- 顺序读写
+- 零拷贝
+- 分区
+- 批量发送
+- 主动 poll
 
 ## kafka 中 zookeeper 的作用
 
@@ -58,3 +63,24 @@ Zookeeper：kafka 集群依赖 zookeeper 来保存集群的的元信息，来保
 3. 记录 ISR，ISR（in-sync replica） 是 partition 的一组同步集合，就是所有 follower 里面同步最积极的那部分。一条消息只有被 ISR 中的成员都接收到，才被视为“已同步”状态。只有处于 ISR 集合中的副本才有资格被选举为 leader。
 4. node 和 topic 注册，zookeeper 保存了所有 node 和 topic 的注册信息，可以方便的找到每个 broker 持有哪些 topic。
 5. topic 配置，zookeeper 保存了 topic 相关配置，例如 topic 列表、每个 topic 的 partition 数量、副本的位置等等。
+
+## kafka producer 发送数据，ack 为 0， 1， -1 的时候代表啥？request.required.acks
+
+- 0：生产者只管发送，不管服务器，消费者是否收到信息
+- 1：只有当 leader 确认了收到消息，才确认此消息发送成功
+- -1： producer 需要等待 ISR 中的所有 follower 都确认接收到数据后才算一次发送完成，可靠性最高
+
+## Kafka 判断一个节点是否还活着有那两个条件？
+
+1. 节点必须可以维护和 ZooKeeper 的连接，Zookeeper 通过心跳机制检查每个节点的连接
+2. 如果节点是个 follower,他必须能及时的同步 leader 的写操作，延时不能太久。
+
+## ISR（in-sync replicas）是什么？
+
+In-Sync Replicas isr 是一个副本的列表，里面存储的都是能跟 leader 数据一致的副本
+
+## kafka 再平衡
+
+## kafka 如何保证消息只发送一次
+
+开启幂等 producer，当 kafka 根据 producerId 和 sequence 判定是同一个消息时，直接丢弃，以此来实现幂等性。
