@@ -10,7 +10,6 @@
     - [synchronized 作用于静态方法和非静态方法的区别？](#synchronized-作用于静态方法和非静态方法的区别)
     - [synchronized 的实现原理](#synchronized-的实现原理)
     - [volatile 关键字的作用](#volatile-关键字的作用)
-    - [jvm 中的主内存和工作内存](#jvm-中的主内存和工作内存)
     - [锁的实现思路](#锁的实现思路)
     - [乐观锁和悲观锁](#乐观锁和悲观锁)
     - [乐观锁的实现：CAS（compare and swap）](#乐观锁的实现cascompare-and-swap)
@@ -20,7 +19,7 @@
     - [如何解决 ABA 问题？](#如何解决-aba-问题)
     - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
     - [AtomicXXX 的原理](#atomicxxx-的原理)
-    - [LongAdder 的原理](#longadder-的原理)
+    - [LongAdder（累加器） 的原理，与 AtomicLong 的区别？](#longadder累加器-的原理与-atomiclong-的区别)
   - [Lock](#lock)
     - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
     - [AQS 的原理](#aqs-的原理)
@@ -34,6 +33,7 @@
   - [并发集合](#并发集合)
     - [jdk1.7 ConcurrentHashMap 如何保证线程安全？](#jdk17-concurrenthashmap-如何保证线程安全)
     - [jdk1.8 ConcurrentHashMap 如何保证线程安全？](#jdk18-concurrenthashmap-如何保证线程安全)
+    - [jdk1.8 ConcurrentHashMap 扩容方式](#jdk18-concurrenthashmap-扩容方式)
     - [HashMap, HashTable, ConcurrentHashMap 的区别？](#hashmap-hashtable-concurrenthashmap-的区别)
     - [CopyOnWriteList](#copyonwritelist)
   - [线程池](#线程池)
@@ -75,12 +75,6 @@
 
 > 注意：volatile 无法保证对变量的操作的原子性，所以在多线程场景下，多个线程同时 i++会出现线程不安全的问题，因为 i++不是原子操作
 
-### jvm 中的主内存和工作内存
-
-1. 所有的变量都存储在主内存中(虚拟机内存的一部分)，对于所有线程都是共享的。
-2. 每条线程都有自己的工作内存，工作内存中保存的是主存中某些变量的拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的变量。
-3. 线程之间无法直接访问对方的工作内存中的变量，线程间变量的传递均需要通过主内存来完成。
-
 ### 锁的实现思路
 
 - 锁是一个共享资源
@@ -120,7 +114,9 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 1. 使用 volatile 保存变量，保证多线程变量的可见性，使缓存失效。
 2. 用 CAS+自旋方式，实现原子操作
 
-### LongAdder 的原理
+### LongAdder（累加器） 的原理，与 AtomicLong 的区别？
+
+LongAdder 类与 AtomicLong 类的区别在于高并发时前者将对单一变量的 CAS 操作分散为对数组 cells 中多个元素的 CAS 操作，取值时进行求和；而在并发较低时仅对 base 变量进行 CAS 操作，与 AtomicLong 类原理相同
 
 ## Lock
 
@@ -182,6 +178,13 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 ### jdk1.8 ConcurrentHashMap 如何保证线程安全？
 
 - jdk1.8 中，采用了 synchronized+CAS 方式来保证线程安全。锁的粒度更小。
+
+### jdk1.8 ConcurrentHashMap 扩容方式
+
+- 多线程方式扩容，通过给每个线程分配桶区间，避免线程间的争用，每个线程默认处理 16 个桶。
+- 通过为每个桶节点加锁，避免 putVal 方法导致数据不一致。
+- 同时，在扩容的时候，也会将链表拆成两份，这点和 HashMap 的 resize 方法类似。
+- 如果有新的线程想 put 数据时，也会帮助其扩容。
 
 ### HashMap, HashTable, ConcurrentHashMap 的区别？
 
