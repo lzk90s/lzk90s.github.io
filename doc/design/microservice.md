@@ -1,5 +1,18 @@
 # 微服务
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [微服务](#微服务)
+  - [什么是服务熔断和服务降级](#什么是服务熔断和服务降级)
+  - [Hystrix](#hystrix)
+    - [线程池和信号量隔离](#线程池和信号量隔离)
+  - [负载均衡策略](#负载均衡策略)
+  - [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
+
+<!-- /code_chunk_output -->
+
 ## 什么是服务熔断和服务降级
 
 1. 熔断机制是应对雪崩效应，当某个微服务不可用或者响应时间太长，会进行服务降级，近而熔断该节点微服务的调用，快速返回错误的响应信息。在 SpringCloud 中是通过 Hystrix 实现，缺省是 5 秒内调用 20 次
