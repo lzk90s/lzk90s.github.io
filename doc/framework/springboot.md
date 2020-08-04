@@ -44,3 +44,5 @@ Spring 中 AOP 代理使用 JDK 动态代理和 CGLIB 代理来实现，默认�
 2. MyBatis 在处理#{}时会将 sql 中的#{}替换为?号，调用 PreparedStatement 的 set 方法来复制
 3. MyBatis 在处理${}时，就是把${}替换为变量的值
 4. 使用#{}可以防止 sql 注入
+
+## spirng @Transactional 事务的传播
