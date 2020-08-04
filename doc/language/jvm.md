@@ -13,6 +13,7 @@
     - [类加载流程](#类加载流程)
   - [JMM（java memory model）是什么？](#jmmjava-memory-model是什么)
     - [JMM 内存模型的实现](#jmm-内存模型的实现)
+    - [happen before](#happen-before)
     - [主内存和工作内存同步的时机？](#主内存和工作内存同步的时机)
   - [jvm 内存结构](#jvm-内存结构)
     - [jvm 内存划分](#jvm-内存划分)
@@ -39,8 +40,7 @@
     - [Parallel scavenge 收集器与 ParNew 收集器的区别？](#parallel-scavenge-收集器与-parnew-收集器的区别)
     - [CMS 和 G1 收集器的区别？](#cms-和-g1-收集器的区别)
     - [什么是 GC ROOT，GC 如何找到死亡的对象？](#什么是-gc-rootgc-如何找到死亡的对象)
-    - [触发垃圾回收的场景](#触发垃圾回收的场景)
-  - [java 的四种引用类型](#java-的四种引用类型)
+    - [触发 FullGC 的场景](#触发-fullgc-的场景)
   - [触发内存泄漏的场景](#触发内存泄漏的场景)
   - [触发栈内存溢出的场景](#触发栈内存溢出的场景)
   - [JVM 如何调优](#jvm-如何调优)
@@ -96,9 +96,13 @@ JMM 是一种规范，目的是解决由于多线程通过共享内存进行通�
 
 ### JMM 内存模型的实现
 
-- 原子性：为了保证原子性，提供了两个高级的字节码指令 monitorenter 和 monitorexit。
+- 原子性： monitorenter 和 monitorexit 指令，CAS 也是保证原子性。
 - 可见性：volatile
 - 有序性：volatile 关键字会禁止指令重排。synchronized 关键字保证同一时刻只允许一条线程操作
+
+### happen before
+
+在 JMM 中，如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须要存在 happens-before 关系。
 
 ### 主内存和工作内存同步的时机？
 
@@ -271,7 +275,7 @@ Tracing GC 的根本思路就是：给定一个集合的引用作为根出发，
 
 GC roots 这组引用是 tracing GC 的起点。要实现语义正确的 tracing GC，就必须要能完整枚举出所有的 GC roots，否则就可能会漏扫描应该存活的对象，导致 GC 错误回收了这些被漏扫的活对象
 
-### 触发垃圾回收的场景
+### 触发 FullGC 的场景
 
 1. 当 Eden 区和幸存区 From 满时
 2. 调用 System.gc()或 Runtime.getRuntime().gc()时，不一定会执行 Full GC
@@ -280,14 +284,6 @@ GC roots 这组引用是 tracing GC 的起点。要实现语义正确的 tracing
 5. 通过 Minor GC 后进入老年代的平均大小大于老年代的可用内存
 6. 幸存区 From 到幸存区 To 时发现 To 空间不足转向老年代且老年代可用内存不够
 7. 老年代写满会触发 Full GC 8.持久代被写满会触发 Full GC 9.手动调用 gc 方法会触发 Full GC
-
-## java 的四种引用类型
-
-1. 强引用 通过 Object obj = new Object()创建的引用
-2. 软引用 有用但并非必须的对象，内存不足时会被回收，适合做内存缓存，既能提高查询效率，也不会造成内存泄漏
-   系统发生内存溢出异常前，将会把这些对象列进回收范围进行二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常。Java 中的 SoftReference 表示软引用
-3. 弱引用 在下一次 GC 中会被回收掉，ThreadLocal 和 WeakHashMap 都使用了弱引用。Java 中的类 WeakReference 表示弱引用
-4. 虚引用 无法从虚引用中拿到对象，被虚引用的对象就跟不存在一样。虚引用用来跟踪垃圾回收情况，或者可以完成垃圾收集器之外的定制化操作。Java NIO 中的堆外内存因为不受 GC 的管理，就是通过虚引用完成。
 
 ## 触发内存泄漏的场景
 
