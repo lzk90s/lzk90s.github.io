@@ -12,7 +12,8 @@
   - [String 为什么要设置成 final 的？](#string-为什么要设置成-final-的)
   - [自动拆箱装箱](#自动拆箱装箱)
   - [ClassNotFoundException 和 NoClassDefFoundException 的区别？](#classnotfoundexception-和-noclassdeffoundexception-的区别)
-  - [sleep 和 wait 的区别？](#sleep-和-wait-的区别)
+  - [java 线程状态](#java-线程状态)
+  - [Thread.sleep、Thread.yield、obj.wait、t.join 的区别？](#threadsleep-threadyield-objwait-tjoin-的区别)
   - [三种代理模式](#三种代理模式)
     - [静态代理（implement interface）](#静态代理implement-interface)
     - [jdk 中的 Proxy.newProxyInstance 动态代理（implement interface）](#jdk-中的-proxynewproxyinstance-动态代理implement-interface)
@@ -78,11 +79,16 @@ public static Integer valueOf(int i) {
 - jvm 的 classloader 加载类时，如果在 classpath 中没有找到 class,则是 ClassNotFoundException，通常是设置 classpath 不对，或者缺少 java 包。
 - class 如果加载成功之后，会有一个该类的类对象（class 对象），当在内存当中没有找到这个类对象，就会出现 NotClassDefFoundError，通常是因为 class 中存在 static 方法，static 方法执行失败导致 class 没有加载到内存中。
 
-## sleep 和 wait 的区别？
+## java 线程状态
 
-1. sleep 方法是线程类 Thread 的静态方法，调用该方法会使线程进入睡眠状态，让出执行机会给其他线程，等到时间到了，线程进入就绪状态与其他线程一起竞争 CPU 执行时间
-2. sleep 是静态方法，他不能改变对象的锁，当一个 synchronized 块中调用了 sleep，线程虽然进入了休眠，但是对象锁没有被释放，其他线程无法访问这个对象
-3. wait 是 Object 方法，当一个线程执行到 wait 方法时，他就进入到一个和该对象相关的池，同时释放锁，是的其他线程能够访问，可以通过 notify，notifyAll 方法来唤醒
+![thread_state](java/thread_state.png)
+
+## Thread.sleep、Thread.yield、obj.wait、t.join 的区别？
+
+1. sleep 方法是线程类 Thread 的静态方法，sleep 方法是属于 Thread 类中的，sleep 过程中线程不会释放锁，只会阻塞线程，让出 cpu 给其他线程。
+2. 和 sleep 一样都是 Thread 类的方法，都是暂停当前正在执行的线程对象，不会释放资源锁，和 sleep 不同的是 yield 方法并不会让线程进入阻塞状态，而是让线程重回就绪状态，它只需要等待重新获取 CPU 执行时间，所以执行 yield()的线程有可能在进入到可执行状态后马上又被执行。
+3. wait 方法是属于 Object 类中的，wait 过程中线程会释放对象锁，只有当其他线程调用 notify 才能唤醒此线程。wait 使用时必须先获取对象锁，即必须在 synchronized 修饰的代码块中使用，那么相应的 notify 方法同样必须在 synchronized 修饰的代码块中使用，如果没有在 synchronized 修饰的代码块中使用时运行时会抛出 IllegalMonitorStateException 的异常。
+4. join 方法调用后，等待调用 join 方法的线程结束之后，程序再继续执行，一般用于等待异步线程执行完结果之后才能继续运行的场景。
 
 ## 三种代理模式
 

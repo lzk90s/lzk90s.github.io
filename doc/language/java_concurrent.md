@@ -43,6 +43,7 @@
     - [CopyOnWriteList](#copyonwritelist)
       - [CopyOnWriteList 的 get 操作](#copyonwritelist-的-get-操作)
   - [线程池](#线程池)
+    - [java 线程状态](#java-线程状态)
     - [线程池 ThreadPoolExecutor](#线程池-threadpoolexecutor)
     - [线程池满了丢弃策略有哪些？](#线程池满了丢弃策略有哪些)
     - [java 中线程池种类](#java-中线程池种类)
