@@ -25,6 +25,14 @@
 
 Spring 中 AOP 代理使用 JDK 动态代理和 CGLIB 代理来实现，默认如果目标对象是接口，则使用 JDK 动态代理，否则使用 CGLIB 来生成代理类。
 
+## springmvc 的五大组件
+
+- DispatcherServlet：请求的入口
+- HandlerMapping： 请求的派发 负责让请求 和 控制器建立一一对应的关联
+- Controller：真正的处理器
+- ModelAndView：封装模型信息和视图信息的
+- ViewResolver：视图处理器 最终定位页面的
+
 ## spring mvc 流程
 
 ![springmvc](springmvc.png)

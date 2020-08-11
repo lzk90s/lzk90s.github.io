@@ -43,14 +43,14 @@
     - [CopyOnWriteList](#copyonwritelist)
       - [CopyOnWriteList 的 get 操作](#copyonwritelist-的-get-操作)
   - [线程池](#线程池)
-    - [java 线程状态](#java-线程状态)
     - [线程池 ThreadPoolExecutor](#线程池-threadpoolexecutor)
     - [线程池满了丢弃策略有哪些？](#线程池满了丢弃策略有哪些)
     - [java 中线程池种类](#java-中线程池种类)
     - [BlockingQueue](#blockingqueue)
     - [java 实现定时器的几种方法](#java-实现定时器的几种方法)
     - [java 创建线程的几种方法](#java-创建线程的几种方法)
-    - [ThreadLocal](#threadlocal)
+    - [ThreadLocal 的实现原理](#threadlocal-的实现原理)
+    - [ThreadLocal 如果不 remove 会怎样？](#threadlocal-如果不-remove-会怎样)
 
 <!-- /code_chunk_output -->
 
@@ -370,7 +370,7 @@ public static ExecutorService newSingleThreadExecutor(){
 3. 实现 Callable 接口实现 call 方法，创建 FutureTask 对象 new FutureTask(Callable)，并创建 Thread 对象 new Thread(FutureTask)
 4. 通过线程池进行线程的创建和任务提交 execute(Runnable) submit(Runnable) submit(Callable)
 
-### ThreadLocal
+### ThreadLocal 的实现原理
 
 1. ThreadLocal 可以保证多线程场景下，不同线程各自访问各自的数据不存在数据安全问题
 2. ThreadLocal 中核心方法为 get 和 set，必须先 set 再 get
@@ -397,3 +397,7 @@ public class ThreadLocal<T> {
     }
 }
 ```
+
+### ThreadLocal 如果不 remove 会怎样？
+
+1. 内存泄漏：ThreadLocalMap 的 Entry 为弱引用，当下一次 GC 的时候，弱引用的对象会被回收，会导致 map 的 key 为 null,为 null 的 key 没法从 map 里面 get 出来。导致内存泄漏。

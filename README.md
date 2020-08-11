@@ -49,7 +49,8 @@
 
 ---
 
-[常用数据结构](doc/algorithm/data_structure.md)
+[常用数据结构](doc/algorithm/data_structure.md)  
+[常用算法](doc/algorithm/algorithm.md)
 
 ## 开发运维
 
