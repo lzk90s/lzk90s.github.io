@@ -65,10 +65,10 @@
 
 ---
 
-| 领域分类  | 链接                                                           |
-| :-------- | :------------------------------------------------------------- |
-| spring 系 | [spring & spring-boot](doc/framework/springboot.md)            |
-| rpc 框架  | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md) |
+| 领域分类  | 链接                                                                                              |
+| :-------- | :------------------------------------------------------------------------------------------------ |
+| spring 系 | [spring & spring-boot](doc/framework/springboot.md), [spring-cloud](doc/framework/springcloud.md) |
+| rpc 框架  | [brpc](doc/framework/brpc.md), [dubbo](doc/framework/dubbo.md)                                    |
 
 ## 常用中间件
 

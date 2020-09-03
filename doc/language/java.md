@@ -6,6 +6,7 @@
 
 - [java](#java)
   - [==和 equals 的区别](#和-equals-的区别)
+  - [什么是反射？](#什么是反射)
   - [四种引用状态](#四种引用状态)
   - [包装类的常量池](#包装类的常量池)
   - [String 常量池](#string-常量池)
@@ -18,6 +19,7 @@
     - [静态代理（implement interface）](#静态代理implement-interface)
     - [jdk 中的 Proxy.newProxyInstance 动态代理（implement interface）](#jdk-中的-proxynewproxyinstance-动态代理implement-interface)
     - [cglib 代理（extends class）](#cglib-代理extends-class)
+      - [cglib 的实现原理](#cglib-的实现原理)
   - [集合容器](#集合容器)
     - [HashMap1.7 的实现](#hashmap17-的实现)
     - [HashMap 1.8 的实现](#hashmap-18-的实现)
@@ -26,6 +28,13 @@
     - [有没有有序的 Map？](#有没有有序的-map)
   - [JAVA 中容器的数据结构实现](#java-中容器的数据结构实现)
   - [Java IO](#java-io)
+    - [BIO（一个连接一个线程）](#bio一个连接一个线程)
+    - [BIO 线程池](#bio-线程池)
+    - [NIO（一个请求一个线程）， Reactor](#nio一个请求一个线程-reactor)
+      - [Channel](#channel)
+      - [Buffer](#buffer)
+      - [Selector（Reactor）](#selectorreactor)
+    - [AIO（一个有效请求一个线程），Proactor](#aio一个有效请求一个线程proactor)
 
 <!-- /code_chunk_output -->
 
@@ -114,6 +123,8 @@ public static Integer valueOf(int i) {
 - cglib 既可以代理 interface,又可以代理 class
 - 由于 cglib 对 class 代理时使用的是 extends 父类的方法，所以，代理的类不能为 final,否则会报错。
 
+#### cglib 的实现原理
+
 ## 集合容器
 
 ### HashMap1.7 的实现
@@ -174,3 +185,25 @@ TreeMap：按照 key 有序
 > HashMap 是无序的，当我们希望有顺序地去存储 key-value 时，就需要使用 LinkedHashMap 了，LinkedHashMap 默认的构造参数是默认 插入顺序的，就是说你插入的是什么顺序，读出来的就是什么顺序。
 
 ## Java IO
+
+### BIO（一个连接一个线程）
+
+同步并阻塞，服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善
+
+### BIO 线程池
+
+当新客户端接入时,将客户端的 socket 封装成一个 Task(该任务实现 Runnable 接口)投递到线程池处理,线程池维护一个队列,资源可控,无论多少个客户端并发都不会造成耗尽和宕机。
+
+### NIO（一个请求一个线程）， Reactor
+
+同步非阻塞，服务器实现模式为一个请求一个线程，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有 I/O 请求时才启动一个线程进行处理。
+
+#### Channel
+
+#### Buffer
+
+#### Selector（Reactor）
+
+### AIO（一个有效请求一个线程），Proactor
+
+异步非阻塞，服务器实现模式为一个有效请求一个线程，客户端的 IO 请求都是由 OS 先完成了再通知服务器应用去启动线程进行处理。
