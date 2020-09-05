@@ -27,7 +27,8 @@
     - [jdk1.7 的 HashMap 的死循环](#jdk17-的-hashmap-的死循环)
     - [有没有有序的 Map？](#有没有有序的-map)
   - [JAVA 中容器的数据结构实现](#java-中容器的数据结构实现)
-  - [Java IO](#java-io)
+  - [Jdk IO](#jdk-io)
+  - [Java 网络 IO](#java-网络-io)
     - [BIO（一个连接一个线程）](#bio一个连接一个线程)
     - [BIO 线程池](#bio-线程池)
     - [NIO（一个请求一个线程）， Reactor](#nio一个请求一个线程-reactor)
@@ -184,7 +185,11 @@ TreeMap：按照 key 有序
 >
 > HashMap 是无序的，当我们希望有顺序地去存储 key-value 时，就需要使用 LinkedHashMap 了，LinkedHashMap 默认的构造参数是默认 插入顺序的，就是说你插入的是什么顺序，读出来的就是什么顺序。
 
-## Java IO
+## Jdk IO
+
+![java_io](java/java_io.png)
+
+## Java 网络 IO
 
 ### BIO（一个连接一个线程）
 

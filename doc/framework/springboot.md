@@ -1,5 +1,7 @@
 # spring 系列
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
 ## bean 的生命周期
 
 ![spring_bean](spring_bean.jpg)
@@ -12,6 +14,12 @@
 6. 正常使用
 7. DisposableBean 和 destroy-method
 
+### spring 提供的 bean 生命周期过程中的扩展点
+
+- InitializingBean：在执行完 BeanPostProcessor 的 postProcessBeforeInitialization 方法后，如果这个 bean 实现了 InitializingBean 接口，则会去调用 afterPropertiesSet 方法。
+- 各种 Aware：在在执行完 BeanPostProcessor 的 postProcessBeforeInitialization 方法前，如果 bean 实现了 BeanNameAware 或 BeanClassLoaderAware 或 BeanFactoryAware，则会调用接口相关的方法，入参就是这个 bean 关心的值。
+- BeanPostProcessor：针对所有 bean,会传入 bean 对象
+
 ## BeanFactory 和 ApplicationContext 接口区别
 
 1. BeanFactory 是 Spring 最底层接口，包含了各种 Bean 的定义，读取 bean 配置文档，管理 bean 的加载、实例化、控制 bean 的生命周期，维护 bean 之间依赖关系。ApplicationContext 是 BeanFactory 的派生接口，除了提供 BeanFactory 所具有的功能外，还提供了更完整的框架功能
@@ -20,6 +28,8 @@
 4. 都支持 BeanPostProcessor,BeanFactoryPostProcessor
 
 ## IOC
+
+### DefaultListableBeanFactory
 
 ## AOP
 

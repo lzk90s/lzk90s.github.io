@@ -45,6 +45,7 @@
     - [表锁](#表锁)
     - [行锁（锁存在的记录）](#行锁锁存在的记录)
     - [间隙锁（锁不存在的记录，阻塞 insert 操作）](#间隙锁锁不存在的记录阻塞-insert-操作)
+    - [select for update 什么情况会使用间隙锁？](#select-for-update-什么情况会使用间隙锁)
     - [nex-key lock（间隙锁和行锁的合集称）](#nex-key-lock间隙锁和行锁的合集称)
       - [next -key lock 影响并发怎么办？](#next-key-lock-影响并发怎么办)
     - [共享锁、排他锁](#共享锁-排他锁)
@@ -264,6 +265,8 @@ mysql RC 模式下，没有解决幻读的问题，用 STATEMENT 方式可能会
 ### 间隙锁（锁不存在的记录，阻塞 insert 操作）
 
 - 间隙锁锁住的是行之间的空隙
+
+### select for update 什么情况会使用间隙锁？
 
 ### nex-key lock（间隙锁和行锁的合集称）
 

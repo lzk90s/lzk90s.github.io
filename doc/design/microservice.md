@@ -10,6 +10,8 @@
     - [线程池和信号量隔离](#线程池和信号量隔离)
   - [负载均衡策略](#负载均衡策略)
   - [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
+  - [zuul 和 springcloud gateway 的区别？](#zuul-和-springcloud-gateway-的区别)
+  - [](#)
 
 <!-- /code_chunk_output -->
 
@@ -59,3 +61,7 @@
 ## 作为服务注册中心，Eureka 比 Zookeeper 的区别?
 
 Zookeeper 保证的是 CP, Eureka 则是 AP。
+
+## zuul 和 springcloud gateway 的区别？
+
+## resttemplate 和 feign 的区别？
