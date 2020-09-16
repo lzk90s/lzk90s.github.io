@@ -2,6 +2,23 @@
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
+<!-- code_chunk_output -->
+
+- [spring 系列](#spring-系列)
+  - [bean 的生命周期](#bean-的生命周期)
+    - [spring 提供的 bean 生命周期过程中的扩展点](#spring-提供的-bean-生命周期过程中的扩展点)
+  - [BeanFactory 和 ApplicationContext 接口区别](#beanfactory-和-applicationcontext-接口区别)
+  - [IOC](#ioc)
+    - [DefaultListableBeanFactory](#defaultlistablebeanfactory)
+  - [AOP](#aop)
+  - [springmvc 的五大组件](#springmvc-的五大组件)
+  - [spring mvc 流程](#spring-mvc-流程)
+  - [mybatis 原理](#mybatis-原理)
+    - [#{}和\${}的区别是什么](#和的区别是什么)
+  - [spirng @Transactional 事务的传播](#spirng-transactional-事务的传播)
+
+<!-- /code_chunk_output -->
+
 ## bean 的生命周期
 
 ![spring_bean](spring_bean.jpg)
