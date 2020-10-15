@@ -5,3 +5,5 @@
 ## [项目管理篇（PMP）](pmp/README.md)
 
 ## [团队管理篇（Team）](team/README.md)
+
+## [效率工具篇（Tool）](tool/README.md)
