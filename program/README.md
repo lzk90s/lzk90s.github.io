@@ -54,28 +54,32 @@
 [常用数据结构](algorithm/data_structure.md)  
 [常用算法](algorithm/algorithm.md)
 
+## 工程化
+
+CI/CD
+自动化测试
+[docker](middleware/docker.md), [k8s](middleware/k8s.md)
+
 ## 常用框架
 
 ---
 
-| 领域分类  | 链接                                                   |
-| :-------- | :----------------------------------------------------- |
-| spring 系 | [spring-boot](framework/springboot.md)                 |
-| rpc 框架  | [brpc](framework/brpc.md), [dubbo](framework/dubbo.md) |
+[spring-boot](framework/springboot.md)  
+[brpc](framework/brpc.md)  
+[dubbo](framework/dubbo.md)
 
 ## 常用中间件
 
 ---
 
-| 领域分类       | 链接                                                     |
-| :------------- | :------------------------------------------------------- |
-| web            | [nginx](middleware/nginx.md)                             |
-| 消息队列       | [kafka](middleware/kafka.md)                             |
-| 调试分析       | [arthas](middleware/arthas.md)                           |
-| 数据库         | [mysql](middleware/mysql.md)                             |
-| 缓存           | [redis](middleware/redis.md)                             |
-| 搜索           | [elasticsearch](middleware/elasticsearch.md)             |
-| 流媒体         | [ffmpeg](middleware/ffmpeg.md)                           |
-| 分布式事务     | [Seata](middleware/seata.md)                             |
-| 大数据（TODO） | spark, flink                                             |
-| 服务编排       | [docker](middleware/docker.md), [k8s](middleware/k8s.md) |
+| 领域分类       | 链接                                         |
+| :------------- | :------------------------------------------- |
+| web            | [nginx](middleware/nginx.md)                 |
+| 消息队列       | [kafka](middleware/kafka.md)                 |
+| 调试分析       | [arthas](middleware/arthas.md)               |
+| 数据库         | [mysql](middleware/mysql.md)                 |
+| 缓存           | [redis](middleware/redis.md)                 |
+| 搜索           | [elasticsearch](middleware/elasticsearch.md) |
+| 流媒体         | [ffmpeg](middleware/ffmpeg.md)               |
+| 分布式事务     | [Seata](middleware/seata.md)                 |
+| 大数据（TODO） | spark, flink                                 |
