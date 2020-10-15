@@ -45,7 +45,7 @@
 [分布式架构](architecture/distribute.md)  
 [微服务 & SpringCloud](architecture/microservice.md)  
 [Service Mesh](architecture/service_mesh.md)  
-[C4 架构设计](architecture/c4_arch.md)
+[C4 架构设计](architecture/c4_model.md)
 
 ## 数据结构 & 容器 & 算法
 

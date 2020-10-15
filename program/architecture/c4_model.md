@@ -16,7 +16,7 @@
     - [容器图(Container Diagram)](#容器图container-diagram)
     - [组件图(Component Diagram)](#组件图component-diagram)
     - [类图(Code/Class Diagram)](#类图codeclass-diagram)
-  - [visual code 如何画 C4](#visual-code-如何画-c4)
+  - [总结](#总结)
   - [参考文档](#参考文档)
 
 <!-- /code_chunk_output -->
@@ -70,6 +70,8 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 
 ### 语境图(System Context Diagram)
 
+在这一层级中细节并不重要，只需要显示系统概况。 重点应该放在人员（角色）和软件系统上，而不是技术，协议和其他低层级细节上，从而使非技术人员也能够看得懂。这个图也是明确需求的重要图示。
+
 ![system_context](system_context.png)
 
 作用：
@@ -79,6 +81,8 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 - 如何融入已有的 IT 环境
 
 ### 容器图(Container Diagram)
+
+本质上，容器是可单独运行/可部署的单元（例如，单独的进程空间） ）执行代码或存储数据。容器图显示了软件体系结构的高层结构以及如何在其间分配职责。 它还显示了主要的技术选择以及容器之间的通信方式。
 
 ![container](container.png)
 
@@ -90,6 +94,8 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 - 告诉开发者在哪里写代码
 
 ### 组件图(Component Diagram)
+
+组件图显示了容器如何由多个“组件”组成，每个组件是什么，它们的职责以及技术/实现接口（API）或者细节。
 
 ![component](component.png)
 
@@ -103,9 +109,9 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 
 ![code](code.png)
 
-## visual code 如何画 C4
+## 总结
 
-导入预定义好的一些结构：https://github.com/RicardoNiepel/C4-PlantUML
+![C4](c4.jpg)
 
 ## 参考文档
 
