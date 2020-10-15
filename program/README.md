@@ -44,7 +44,8 @@
 [领域驱动设计 DDD](architecture/ddd.md)  
 [分布式架构](architecture/distribute.md)  
 [微服务 & SpringCloud](architecture/microservice.md)  
-[Service Mesh](architecture/service_mesh.md)
+[Service Mesh](architecture/service_mesh.md)  
+[C4 架构设计](architecture/c4_arch.md)
 
 ## 数据结构 & 容器 & 算法
 
