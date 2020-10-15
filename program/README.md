@@ -56,9 +56,11 @@
 
 ## 工程化
 
-CI/CD
-自动化测试
-[docker](middleware/docker.md), [k8s](middleware/k8s.md)
+---
+
+[CI/CD](engineering/cicd.md)  
+[docker](middleware/docker.md)  
+[k8s](middleware/k8s.md)
 
 ## 常用框架
 
