@@ -7,3 +7,5 @@
 ## [团队管理篇（Team）](team/README.md)
 
 ## [效率工具篇（Tool）](tool/README.md)
+
+## [方法论篇（Methodology）](methodology/README.md)

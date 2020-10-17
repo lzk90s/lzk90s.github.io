@@ -12,10 +12,11 @@
     - [组件（Component）](#组件component)
   - [C4 图的几个元素](#c4-图的几个元素)
   - [C4 的几张核心图](#c4-的几张核心图)
-    - [语境图(System Context Diagram)](#语境图system-context-diagram)
-    - [容器图(Container Diagram)](#容器图container-diagram)
-    - [组件图(Component Diagram)](#组件图component-diagram)
-    - [类图(Code/Class Diagram)](#类图codeclass-diagram)
+    - [Level1：语境图(System Context Diagram)](#level1语境图system-context-diagram)
+    - [Level2：容器图(Container Diagram)](#level2容器图container-diagram)
+    - [Level3：组件图(Component Diagram)](#level3组件图component-diagram)
+    - [Level4：类图(Code/Class Diagram)](#level4类图codeclass-diagram)
+    - [补充图：Landscape / Dynamic / Deployment Diagram](#补充图landscape-dynamic-deployment-diagram)
   - [总结](#总结)
   - [参考文档](#参考文档)
 
@@ -38,6 +39,7 @@ System Context --> Container --> Component --> Code 四个层次。
 **当我们看待真实世界的“架构图”时候，是要不停的缩放，在每一个层次刻意忽略一些细节才能表达好当前抽象层次的信息。** 类似下面的地图一样，不同层级需要关注的点是不一样的。
 
 ![地图缩放](map.webp)
+![关键思想](c4_model1.png)
 ![架构抽象](c4_model.png)
 
 ### 人（Person）
@@ -68,7 +70,7 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 
 ## C4 的几张核心图
 
-### 语境图(System Context Diagram)
+### Level1：语境图(System Context Diagram)
 
 在这一层级中细节并不重要，只需要显示系统概况。 重点应该放在人员（角色）和软件系统上，而不是技术，协议和其他低层级细节上，从而使非技术人员也能够看得懂。这个图也是明确需求的重要图示。
 
@@ -80,7 +82,7 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 - 谁会用它
 - 如何融入已有的 IT 环境
 
-### 容器图(Container Diagram)
+### Level2：容器图(Container Diagram)
 
 本质上，容器是可单独运行/可部署的单元（例如，单独的进程空间） ）执行代码或存储数据。容器图显示了软件体系结构的高层结构以及如何在其间分配职责。 它还显示了主要的技术选择以及容器之间的通信方式。
 
@@ -93,7 +95,7 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 - 系统中的职责是如何分布的，容器间的是如何交互的
 - 告诉开发者在哪里写代码
 
-### 组件图(Component Diagram)
+### Level3：组件图(Component Diagram)
 
 组件图显示了容器如何由多个“组件”组成，每个组件是什么，它们的职责以及技术/实现接口（API）或者细节。
 
@@ -105,9 +107,11 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 - 厘清了组件之间的关系和依赖
 - 为软件开发如何分解交付提供了框架
 
-### 类图(Code/Class Diagram)
+### Level4：类图(Code/Class Diagram)
 
 ![code](code.png)
+
+### 补充图：Landscape / Dynamic / Deployment Diagram
 
 ## 总结
 
@@ -117,3 +121,4 @@ Note：容器内的所有组件通常都在同一处理空间中执行。
 
 - [可视化架构设计——C4 介绍](https://www.jianshu.com/p/33c6a7ed126f)
 - [如何画出一张合格的技术架构图？](https://zhuanlan.zhihu.com/p/62172175)
+- [架构制图：工具与方法论](https://zhuanlan.zhihu.com/p/260068315?utm_source=wechat_session&utm_medium=social&utm_oi=29809690279936&utm_campaign=shareopn)
