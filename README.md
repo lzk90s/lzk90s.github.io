@@ -1,6 +1,6 @@
-# 知识地图（持续更新中 ing）
+# 知识地图(updating)
 
-## 编程篇
+## 技术篇
 
 link -> [Program](program/README.md)
 
