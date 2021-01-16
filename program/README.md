@@ -1,4 +1,6 @@
-# 编程篇
+# 开发技术篇
+
+![summary](summary.svg)
 
 ## 硬件
 
