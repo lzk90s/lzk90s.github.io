@@ -1,6 +1,6 @@
 # 知识地图(updating)
 
-## 个人技术篇
+## 开发技术篇
 
 **_===>_** [Program](program/README.md)
 
