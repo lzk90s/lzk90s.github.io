@@ -86,7 +86,7 @@
 
 ## JMM（java memory model）是什么？
 
-![jmm](java/jmm.png)
+![jmm](jmm.png)
 
 1. 所有的变量都存储在主内存中(虚拟机内存的一部分)，对于所有线程都是共享的。
 2. 每条线程都有自己的工作内存，工作内存中保存的是主存中某些变量的拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的变量。
@@ -110,7 +110,7 @@ JMM 是一种规范，目的是解决由于多线程通过共享内存进行通�
 
 ### jvm 内存划分
 
-![java_runtime_memory](java/jvm_runtime_data_areas.webp)
+![java_runtime_memory](jvm_runtime_data_areas.webp)
 
 1. 程序计数器（线程私有） 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址
 2. Java 虚拟机栈（线程私有） 存放基本数据类型、对象引用、方法出口等
@@ -125,7 +125,7 @@ JMM 是一种规范，目的是解决由于多线程通过共享内存进行通�
 - 绝大多数对象都是朝生夕死的，短命
 - 熬过越多次垃圾收集过程的对象就越难以消亡
 
-![memory](java/memory.jpg)
+![memory](memory.jpg)
 
 #### 新生代（Young）
 
@@ -181,7 +181,7 @@ JMM 是一种规范，目的是解决由于多线程通过共享内存进行通�
 - 老年代收集器：CMS、Serial Old、Parallel Old
 - 整堆收集器： G1
 
-![garbage_collector](java/garbage_collector.png)
+![garbage_collector](garbage_collector.png)
 
 ### Serial 收集器（新生代，复制算法）
 

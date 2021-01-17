@@ -95,7 +95,7 @@ public static Integer valueOf(int i) {
 
 ## java 线程状态
 
-![thread_state](java/thread_state.png)
+![thread_state](thread_state.png)
 
 ## Thread.sleep、Thread.yield、obj.wait、t.join 的区别？
 
@@ -165,7 +165,7 @@ TreeMap：按照 key 有序
 
 ## JAVA 中容器的数据结构实现
 
-![java_container](java/java_container.png)
+![java_container](java_container.png)
 
 | 容器              | 数据结构                                                                                 |
 | :---------------- | :--------------------------------------------------------------------------------------- |
@@ -187,7 +187,7 @@ TreeMap：按照 key 有序
 
 ## Jdk IO
 
-![java_io](java/java_io.png)
+![java_io](java_io.png)
 
 ## Java 网络 IO
 
