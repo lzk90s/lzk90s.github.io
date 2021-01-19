@@ -5,22 +5,31 @@
 <!-- code_chunk_output -->
 
 - [微服务](#微服务)
-  - [限流、熔断 、降级](#限流-熔断-降级)
+  - [限流原理（令牌桶）](#限流原理令牌桶)
+  - [熔断 、降级](#熔断-降级)
   - [Hystrix](#hystrix)
     - [线程池和信号量隔离](#线程池和信号量隔离)
   - [负载均衡策略](#负载均衡策略)
   - [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
   - [zuul 和 springcloud gateway 的区别？](#zuul-和-springcloud-gateway-的区别)
-  - [](#)
+  - [resttemplate 和 feign 的区别？](#resttemplate-和-feign-的区别)
 
 <!-- /code_chunk_output -->
 
-## 限流、熔断 、降级
+## 限流原理（令牌桶）
+
+令牌桶算法的原理是系统会以一个恒定的速度往桶里放入令牌，而如果请求需要被处理，则需要先从桶里获取一个令牌，当桶里没有令牌可取时，则拒绝服务。
+
+## 熔断 、降级
 
 1. 熔断机制是应对雪崩效应，当某个微服务不可用或者响应时间太长，会进行服务降级，近而熔断该节点微服务的调用，快速返回错误的响应信息。在 SpringCloud 中是通过 Hystrix 实现，缺省是 5 秒内调用 20 次
 2. 服务降级 一般是从整体符合考虑，就是当某个服务熔断之后，服务器将不再被调用，只返回自定义内容
 3. EnableHystrix 开启熔断
 4. HystrixCommand(fallbackMethod=””) 声明一个失败回滚处理函，超时会回调
+
+## 链路追踪
+
+利用 ThreadLocal + spanId 存储，当前节点的 spanId 作为下个节点的父 spanId
 
 ## Hystrix
 
