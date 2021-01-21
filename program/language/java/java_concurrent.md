@@ -10,6 +10,7 @@
     - [synchronized 作用于静态方法和非静态方法的区别？](#synchronized-作用于静态方法和非静态方法的区别)
     - [synchronized 的实现原理](#synchronized-的实现原理)
     - [volatile 关键字的作用](#volatile-关键字的作用)
+    - [volatile 底层是如何实现禁止指令重排的？](#volatile-底层是如何实现禁止指令重排的)
     - [锁的实现思路](#锁的实现思路)
     - [乐观锁和悲观锁](#乐观锁和悲观锁)
     - [乐观锁的实现：CAS（compare and swap）](#乐观锁的实现cascompare-and-swap)
@@ -81,6 +82,10 @@
 - 防止指令重排序
 
 > 注意：volatile 无法保证对变量的操作的原子性，所以在多线程场景下，多个线程同时 i++会出现线程不安全的问题，因为 i++不是原子操作
+
+### volatile 底层是如何实现禁止指令重排的？
+
+内存屏障
 
 ### 锁的实现思路
 

@@ -7,11 +7,15 @@
 - [redis](#redis)
   - [redis 和 memcached 的区别？](#redis-和-memcached-的区别)
   - [redis 的数据类型](#redis-的数据类型)
+  - [redis 数据类型底层存储实现](#redis-数据类型底层存储实现)
+  - [redis 存储结构 ziplist](#redis-存储结构-ziplist)
+  - [redis 存储结构 skiplist](#redis-存储结构-skiplist)
   - [redis 高性能的原因](#redis-高性能的原因)
   - [Redis 如何做持久化](#redis-如何做持久化)
   - [Redis 集群模式](#redis-集群模式)
   - [redis 集群模式的 一致性 hash 算法](#redis-集群模式的-一致性-hash-算法)
-  - [Redis 做异步队列](#redis-做异步队列)
+  - [Redis 如何做异步队列？](#redis-如何做异步队列)
+  - [redis 如何实现延时队列?](#redis-如何实现延时队列)
   - [缓存穿透是什么?](#缓存穿透是什么)
   - [缓存击穿是什么？](#缓存击穿是什么)
   - [缓存雪崩是什么？](#缓存雪崩是什么)
@@ -22,7 +26,9 @@
   - [redis 事务](#redis-事务)
   - [如何保证缓存和数据库的双写一致性？](#如何保证缓存和数据库的双写一致性)
   - [redis lua](#redis-lua)
-  - [redis zset 的实现原理](#redis-zset-的实现原理)
+  - [redis 客户端 jedis 和 redisson 有哪些区别？](#redis-客户端-jedis-和-redisson-有哪些区别)
+  - [redis 选择 hash 还是 string 存储数据？](#redis-选择-hash-还是-string-存储数据)
+  - [如何用 redis 存储 1 亿的用户状态？](#如何用-redis-存储-1-亿的用户状态)
 
 <!-- /code_chunk_output -->
 
@@ -38,6 +44,37 @@
 3. 哈希类型(Hash) 这里 value 存放的是结构化对象，类似于 map
 4. 集合类型(Set) 存放的是一堆不重复的集合
 5. 有序集合(ZSet) 多了一个权重 score，集合中的元素能够按 score 进行排列
+
+## redis 数据类型底层存储实现
+
+| 类型       | 编码       | 对象               |
+| :--------- | :--------- | :----------------- |
+| String     | int        | 整数值实现         |
+| String     | embstr     | sds 实现 <=39 字节 |
+| String     | raw        | sds 实现 > 39 字节 |
+| List       | ziplist    | 压缩列表实现       |
+| List       | linkedlist | 双端链表实现       |
+| Set        | intset     | 整数集合使用       |
+| Set        | hashtable  | 字典实现           |
+| Hash       | ziplist    | 压缩列表实现       |
+| Hash       | hashtable  | 字典使用           |
+| Sorted set | ziplist    | 压缩列表实现       |
+| Sorted set | skiplist   | 跳跃表和字典       |
+
+## redis 存储结构 ziplist
+
+- ziplist 是为节省内存空间而生的。
+- ziplist 是一个为 Redis 专门提供的底层数据结构之一，本身可以有序也可以无序。当作为 list 和 hash 的底层实现时，节点之间没有顺序；当作为 zset 的底层实现时，节点之间会按照大小顺序排列。
+
+## redis 存储结构 skiplist
+
+skiplist
+其实跳表就是在普通单向链表的基础上增加了一些索引，而且这些索引是分层的，从而可以快速地查的到数据。
+
+Skiplist 本质上是一种链表， 但是我们知道链表的查询是比较慢的，时间复杂度为 O(n)， 为了提升查询的效率， 需要额外的存储一些信息， 使得它可以避免从头到尾一个一个遍历， 常用的做法是有序二叉树的二分查找， 可以做到时间复杂度为 O(log(n))， 但是平衡二叉树的实现通常比较复杂，尤其是有添加删除的时候， 二叉树的平衡性可能被破坏， 需要旋转。
+Skiplist 的效率虽然没有平衡二叉树高， 但是它实现起来简单， 并且插入删除操作不需要更多复杂的操作。
+
+![skiplist](skiplist.jpg)
 
 ## redis 高性能的原因
 
@@ -70,11 +107,29 @@ RDB 是全量存储，AOF 是增量存储。
 
 使用 hash 槽方式，和 hash 环类似。
 
-## Redis 做异步队列
+## Redis 如何做异步队列？
 
 1. List 结构 rpush 生产消息，lpop(非阻塞)或者 bpop(阻塞)消费，但是不支持 1:N 消费
 2. Pub/Sub 支持 1:N 消费，如果担心数据丢失使用 MQ
-3. 延时队列 使用 sortedset，那时间作为 score，消息内容作为 key 来调用 zadd 来生产消息，消费者用 zrangebyscore 指定获取 N 秒之前的数据轮询处理
+
+## redis 如何实现延时队列?
+
+Zset 可以设置 score，score 设置为当前时间+延时时长。然后通过 zrangeWithScores 来查询，取到数据后，用 zrem 删除。不过，由于 zrangeWithScores 和 zrem 是两个不同的步骤，多线程时可能会被打断。所以，可以用 lua 脚步来代替，在 redis 中，lua 脚步是原子性的。
+
+```java
+String luaScript = "local resultArray = redis.call('zrangebyscore', KEYS[1], 0, ARGV[1], 'limit' , 0, 1)\n" +
+        "if #resultArray > 0 then\n" +
+        "    if redis.call('zrem', KEYS[1], resultArray[1]) > 0 then\n" +
+        "        return resultArray[1]\n" +
+        "    else\n" +
+        "        return ''\n" +
+        "    end\n" +
+        "else\n" +
+        "    return ''\n" +
+        "end";
+
+jedis.eval(luaScript, ScriptOutputType.VALUE, new String[]{key}, String.valueOf(System.currentTimeMillis()));
+```
 
 ## 缓存穿透是什么?
 
@@ -151,12 +206,14 @@ redis.delete();
 
 redis lua 会保证 lua 脚步执行的原子性，可以用来实现 CAS
 
-## redis zset 的实现原理
+## redis 客户端 jedis 和 redisson 有哪些区别？
 
-skiplist
-其实跳表就是在普通单向链表的基础上增加了一些索引，而且这些索引是分层的，从而可以快速地查的到数据。
+Jedis 和 Redisson 都是 Java 中对 Redis 操作的封装。Jedis 只是简单的封装了 Redis 的 API 库，可以看作是 Redis 客户端，它的方法和 Redis 的命令很类似。Redisson 不仅封装了 redis ，还封装了对更多数据结构的支持，以及锁等功能，相比于 Jedis 更加大。但 Jedis 相比于 Redisson 更原生一些，更灵活。
 
-Skiplist 本质上是一种链表， 但是我们知道链表的查询是比较慢的，时间复杂度为 O(n)， 为了提升查询的效率， 需要额外的存储一些信息， 使得它可以避免从头到尾一个一个遍历， 常用的做法是有序二叉树的二分查找， 可以做到时间复杂度为 O(log(n))， 但是平衡二叉树的实现通常比较复杂，尤其是有添加删除的时候， 二叉树的平衡性可能被破坏， 需要旋转。
-Skiplist 的效率虽然没有平衡二叉树高， 但是它实现起来简单， 并且插入删除操作不需要更多复杂的操作。
+## redis 选择 hash 还是 string 存储数据？
 
-![skiplist](skiplist.jpg)
+hash 更省内存
+
+## 如何用 redis 存储 1 亿的用户状态？
+
+用 redis 的 bitmap 数据类型来存储，用了 bit 表示一个用户的状态
