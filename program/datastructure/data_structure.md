@@ -20,6 +20,8 @@
     - [B(balance)树](#bbalance树)
     - [B(balance)+树](#bbalance树-1)
   - [散列表（HASH，key 打散后映射到插槽中，要处理冲突）](#散列表hashkey-打散后映射到插槽中要处理冲突)
+  - [堆](#堆)
+  - [java 中的堆实现（PriorityQueue）](#java-中的堆实现priorityqueue)
   - [图结构](#图结构)
 
 <!-- /code_chunk_output -->
@@ -163,5 +165,23 @@ linux 的 epoll 管理连接等等
 
 在一个最大堆中，最大的那一个元素总是位于 index 0 的位置。
 在一个最小堆中，最小的那一个元素总是位于 index 0 的位置。
+
+## java 中的堆实现（PriorityQueue）
+
+PriorityQueue 实际上是一个堆（不指定 Comparator 时默认为最小堆），通过传入自定义的 Comparator 函数可以实现大顶堆。
+
+```java
+
+//小顶堆，默认容量为11
+PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
+//大顶堆，容量11
+PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(11,new Comparator<Integer>(){
+    @Override
+    public int compare(Integer i1,Integer i2){
+        return i2-i1;
+    }
+});
+
+```
 
 ## 图结构

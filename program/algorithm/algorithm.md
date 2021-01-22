@@ -10,10 +10,12 @@
     - [快慢指针](#快慢指针)
     - [碰撞指针](#碰撞指针)
     - [滑动窗口指针](#滑动窗口指针)
+    - [固定窗口指针](#固定窗口指针)
   - [链表中的哨兵节点](#链表中的哨兵节点)
   - [大量数据处理：hash 分组思想](#大量数据处理hash-分组思想)
   - [布隆过滤器](#布隆过滤器)
-  - [TOP k 问题](#top-k-问题)
+  - [TOP k 问题、最小 K 个数问题](#top-k-问题-最小-k-个数问题)
+  - [递归思想](#递归思想)
   - [附录](#附录)
 
 <!-- /code_chunk_output -->
@@ -140,6 +142,28 @@ while(right < s.size()) {
 return res;
 ```
 
+### 固定窗口指针
+
+```c++
+
+// 固定窗口大小为 k
+string s;
+// 在 s 中寻找窗口大小为 k 时的所包含最大元音字母个数
+int  right = 0;
+
+while(right < s.size()) {
+	window.add(s[right]);
+	right++;
+	// 如果符合要求，说明窗口构造完成，
+	if (right>=k) {
+		// 这是已经是一个窗口了，根据条件做一些事情
+		// ... 可以计算窗口最大值等
+		// 最后不要忘记把 right -k 位置元素从窗口里面移除
+	}
+}
+return res;
+```
+
 ## 链表中的哨兵节点
 
 通过增加哨兵结点往往能够简化边界条件，从而防止对特殊条件的判断，使代码更为简便优雅，在链表中应用最为典型。
@@ -151,9 +175,46 @@ return res;
 1. 多次 hash
 2. 用 1bit 表示一个数据是否存在，1byte 可以表示 8 个数据。
 
-## TOP k 问题
+## TOP k 问题、最小 K 个数问题
 
-最小堆 和 最大堆可以处理 topk 问题，java 里面的 PriorityQueue 底层就是小堆顶实现
+最小堆 和 最大堆可以处理 topk 问题，java 里面的 PriorityQueue 可以实现大堆和小堆
+
+## 递归思想
+
+递归 3 要素
+
+1. 递归函数功能
+2. 递归结束条件
+3. 函数的等价关系式
+
+例如：
+
+```c++
+int fn(int n) {
+	// 结束条件
+	if (n == 1) {
+		return 1;
+	}
+	//等价关系式
+	return n * fn(n-1);
+}
+```
+
+```c++
+// 求二叉树的最近公共父节点
+TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+	//结束条件：发现目标节点则通过返回值标记该子树发现了某个目标结点
+	if(root == null || root == p || root == q) return root;
+	//查看左子树中是否有目标结点，没有为null
+	TreeNode left = lowestCommonAncestor(root.left, p, q);
+	//查看右子树是否有目标节点，没有为null
+	TreeNode right = lowestCommonAncestor(root.right, p, q);
+	//都不为空，说明做右子树都有目标结点，则公共祖先就是本身
+	if(left!=null&&right!=null) return root;
+	//如果发现了目标节点，则继续向上标记为该目标节点
+	return left == null ? right : left;
+}
+```
 
 ## 附录
 

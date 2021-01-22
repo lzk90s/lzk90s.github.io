@@ -329,7 +329,7 @@ undo log 是 MVCC 实现的一个重要依赖，回滚的时候要用到 undo lo
 - Index Nested-Loop Join 索引嵌套循环连接：join 的列有 index,用索引优化
 - Block Nested-Loop Join 块索引嵌套连接：join 的列没有 index,用 join buffer
 
-### 分片
+### 分区&分库&分表
 
 ## 参考
 
