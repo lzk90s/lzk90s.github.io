@@ -1,19 +1,16 @@
-# 网络：实现
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [网络：实现](#网络实现)
-  - [select 的实现（轮巡方式）](#select-的实现轮巡方式)
-  - [poll 的实现（轮巡方式）](#poll-的实现轮巡方式)
-  - [epoll 的实现（回调方式）](#epoll-的实现回调方式)
-  - [reactor 模式](#reactor-模式)
-  - [proactor 模式](#proactor-模式)
+- [1. select 的实现（轮巡方式）](#1-select-的实现轮巡方式)
+- [2. poll 的实现（轮巡方式）](#2-poll-的实现轮巡方式)
+- [3. epoll 的实现（回调方式）](#3-epoll-的实现回调方式)
+- [4. reactor 模式](#4-reactor-模式)
+- [5. proactor 模式](#5-proactor-模式)
 
 <!-- /code_chunk_output -->
 
-## select 的实现（轮巡方式）
+## 1. select 的实现（轮巡方式）
 
 select 函数监视的文件描述符分 3 类，分别是 writefds、readfds、和 exceptfds。调用后 select 函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有 except），或者超时（timeout 指定等待时间，如果立即返回设为 null 即可），函数返回。当 select 函数返回后，可以通过遍历 fdset，来找到就绪的描述符。
 
@@ -25,11 +22,11 @@ select 方式的缺点:
 - 对 socket 进行扫描时是线性扫描，即采用轮询的方法，效率较低。
 - 需要维护一个用来存放大量 fd 的数据结构，这样会使得用户空间和内核空间在传递该结构时复制开销大。
 
-## poll 的实现（轮巡方式）
+## 2. poll 的实现（轮巡方式）
 
 poll 本质上和 select 没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个 fd 对应的设备状态，如果设备就绪则在设备等待队列中加入一项并继续遍历，如果遍历完所有 fd 后没有发现就绪设备，则挂起当前进程，直到设备就绪或者主动超时，被唤醒后它又要再次遍历 fd。这个过程经历了多次无谓的遍历。
 
-## epoll 的实现（回调方式）
+## 3. epoll 的实现（回调方式）
 
 epoll 使用“事件”的就绪通知方式，通过 epoll_ctl 注册 fd，一旦该 fd 就绪，内核就会采用类似 callback 的回调机制来激活该 fd，epoll_wait 便可以收到通知。
 
@@ -71,7 +68,7 @@ epoll 的两种工作模式：
 
 - ET 模式：当 epoll_wait 检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用 epoll_wait 时，不会再次响应应用程序并通知此事件。
 
-## reactor 模式
+## 4. reactor 模式
 
 **Reactor 的核心思想：**
 
@@ -83,4 +80,4 @@ epoll 的两种工作模式：
 
 ![reactor](reactor.webp)
 
-## proactor 模式
+## 5. proactor 模式

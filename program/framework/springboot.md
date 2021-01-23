@@ -1,25 +1,22 @@
-# spring 系列
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [spring 系列](#spring-系列)
-  - [bean 的生命周期](#bean-的生命周期)
-    - [spring 提供的 bean 生命周期过程中的扩展点](#spring-提供的-bean-生命周期过程中的扩展点)
-  - [BeanFactory 和 ApplicationContext 接口区别](#beanfactory-和-applicationcontext-接口区别)
-  - [IOC](#ioc)
-    - [DefaultListableBeanFactory](#defaultlistablebeanfactory)
-  - [AOP](#aop)
-  - [springmvc 的五大组件](#springmvc-的五大组件)
-  - [spring mvc 流程](#spring-mvc-流程)
-  - [mybatis 原理](#mybatis-原理)
-    - [#{}和\${}的区别是什么](#和的区别是什么)
-  - [spirng @Transactional 事务的传播](#spirng-transactional-事务的传播)
+- [1. bean 的生命周期](#1-bean-的生命周期)
+  - [1.1. spring 提供的 bean 生命周期过程中的扩展点](#11-spring-提供的-bean-生命周期过程中的扩展点)
+- [2. BeanFactory 和 ApplicationContext 接口区别](#2-beanfactory-和-applicationcontext-接口区别)
+- [3. IOC](#3-ioc)
+  - [3.1. DefaultListableBeanFactory](#31-defaultlistablebeanfactory)
+- [4. AOP](#4-aop)
+- [5. springmvc 的五大组件](#5-springmvc-的五大组件)
+- [6. spring mvc 流程](#6-spring-mvc-流程)
+- [7. mybatis 原理](#7-mybatis-原理)
+  - [7.1. #{}和\${}的区别是什么](#71-和的区别是什么)
+- [8. spirng @Transactional 事务的传播](#8-spirng-transactional-事务的传播)
 
 <!-- /code_chunk_output -->
 
-## bean 的生命周期
+## 1. bean 的生命周期
 
 ![spring_bean](spring_bean.jpg)
 
@@ -31,28 +28,28 @@
 6. 正常使用
 7. DisposableBean 和 destroy-method
 
-### spring 提供的 bean 生命周期过程中的扩展点
+### 1.1. spring 提供的 bean 生命周期过程中的扩展点
 
 - InitializingBean：在执行完 BeanPostProcessor 的 postProcessBeforeInitialization 方法后，如果这个 bean 实现了 InitializingBean 接口，则会去调用 afterPropertiesSet 方法。
 - 各种 Aware：在在执行完 BeanPostProcessor 的 postProcessBeforeInitialization 方法前，如果 bean 实现了 BeanNameAware 或 BeanClassLoaderAware 或 BeanFactoryAware，则会调用接口相关的方法，入参就是这个 bean 关心的值。
 - BeanPostProcessor：针对所有 bean,会传入 bean 对象
 
-## BeanFactory 和 ApplicationContext 接口区别
+## 2. BeanFactory 和 ApplicationContext 接口区别
 
 1. BeanFactory 是 Spring 最底层接口，包含了各种 Bean 的定义，读取 bean 配置文档，管理 bean 的加载、实例化、控制 bean 的生命周期，维护 bean 之间依赖关系。ApplicationContext 是 BeanFactory 的派生接口，除了提供 BeanFactory 所具有的功能外，还提供了更完整的框架功能
 2. BeanFactory 采用的是延迟加载来注入 Bean，只有 getBean 时才会进行实例化
 3. BeanFactory 通常以编程的方式被创建，ApplicationContext 还能以生命的方式创建
 4. 都支持 BeanPostProcessor,BeanFactoryPostProcessor
 
-## IOC
+## 3. IOC
 
-### DefaultListableBeanFactory
+### 3.1. DefaultListableBeanFactory
 
-## AOP
+## 4. AOP
 
 Spring 中 AOP 代理使用 JDK 动态代理和 CGLIB 代理来实现，默认如果目标对象是接口，则使用 JDK 动态代理，否则使用 CGLIB 来生成代理类。
 
-## springmvc 的五大组件
+## 5. springmvc 的五大组件
 
 - DispatcherServlet：请求的入口
 - HandlerMapping： 请求的派发 负责让请求 和 控制器建立一一对应的关联
@@ -60,7 +57,7 @@ Spring 中 AOP 代理使用 JDK 动态代理和 CGLIB 代理来实现，默认�
 - ModelAndView：封装模型信息和视图信息的
 - ViewResolver：视图处理器 最终定位页面的
 
-## spring mvc 流程
+## 6. spring mvc 流程
 
 ![springmvc](springmvc.png)
 
@@ -71,13 +68,13 @@ Spring 中 AOP 代理使用 JDK 动态代理和 CGLIB 代理来实现，默认�
 5. 前端控制器 Dispatcher Servlet 调用视图解析器 View Resolver 将携带的数据结构和视图对象进行解析，解析完成后响应给 Dispatcher Servlet；
 6. 核心控制器将结果返回给客户端。
 
-## mybatis 原理
+## 7. mybatis 原理
 
-### #{}和\${}的区别是什么
+### 7.1. #{}和\${}的区别是什么
 
 1. #{}是预编译处理，\${}是字符串替换
 2. MyBatis 在处理#{}时会将 sql 中的#{}替换为?号，调用 PreparedStatement 的 set 方法来复制
 3. MyBatis 在处理${}时，就是把${}替换为变量的值
 4. 使用#{}可以防止 sql 注入
 
-## spirng @Transactional 事务的传播
+## 8. spirng @Transactional 事务的传播

@@ -1,46 +1,44 @@
-# 微服务
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [微服务](#微服务)
-  - [限流原理（令牌桶）](#限流原理令牌桶)
-  - [熔断 、降级](#熔断-降级)
-  - [Hystrix](#hystrix)
-    - [线程池和信号量隔离](#线程池和信号量隔离)
-  - [负载均衡策略](#负载均衡策略)
-  - [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
-  - [zuul 和 springcloud gateway 的区别？](#zuul-和-springcloud-gateway-的区别)
-  - [resttemplate 和 feign 的区别？](#resttemplate-和-feign-的区别)
+- [限流原理（令牌桶）](#限流原理令牌桶)
+- [熔断 、降级](#熔断-降级)
+- [链路追踪](#链路追踪)
+- [Hystrix](#hystrix)
+  - [线程池和信号量隔离](#线程池和信号量隔离)
+- [负载均衡策略](#负载均衡策略)
+- [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
+- [zuul 和 springcloud gateway 的区别？](#zuul-和-springcloud-gateway-的区别)
+- [resttemplate 和 feign 的区别？](#resttemplate-和-feign-的区别)
 
 <!-- /code_chunk_output -->
 
-## 限流原理（令牌桶）
+## 1. 限流原理（令牌桶）
 
 令牌桶算法的原理是系统会以一个恒定的速度往桶里放入令牌，而如果请求需要被处理，则需要先从桶里获取一个令牌，当桶里没有令牌可取时，则拒绝服务。
 
-## 熔断 、降级
+## 2. 熔断 、降级
 
 1. 熔断机制是应对雪崩效应，当某个微服务不可用或者响应时间太长，会进行服务降级，近而熔断该节点微服务的调用，快速返回错误的响应信息。在 SpringCloud 中是通过 Hystrix 实现，缺省是 5 秒内调用 20 次
 2. 服务降级 一般是从整体符合考虑，就是当某个服务熔断之后，服务器将不再被调用，只返回自定义内容
 3. EnableHystrix 开启熔断
 4. HystrixCommand(fallbackMethod=””) 声明一个失败回滚处理函，超时会回调
 
-## 链路追踪
+## 3. 链路追踪
 
 利用 ThreadLocal + spanId 存储，当前节点的 spanId 作为下个节点的父 spanId
 
-## Hystrix
+## 4. Hystrix
 
-### 线程池和信号量隔离
+### 4.1. 线程池和信号量隔离
 
 - 线程池隔离：对每个 command 创建一个自己的线程池，执行调用。通过线程池隔离来保证不同调用不会相互干扰和每一个调用的并发限制
 - 信号量隔热：对每个 command 创建一个自己的计数器，当并发量超过计数器指定值时，直接拒绝。
 
 使用信号量和线程池的一个区别是，信号量没有 timeout 机制。
 
-## 负载均衡策略
+## 5. 负载均衡策略
 
 1. 轮询
    将所有请求，依次分发到每台服务器上，适合服务器硬件相同的场景。
@@ -67,10 +65,10 @@
    优点：根据权重，调节转发服务器的请求数目；
    缺点：使用相对复杂；
 
-## 作为服务注册中心，Eureka 比 Zookeeper 的区别?
+## 6. 作为服务注册中心，Eureka 比 Zookeeper 的区别?
 
 Zookeeper 保证的是 CP, Eureka 则是 AP。
 
-## zuul 和 springcloud gateway 的区别？
+## 7. zuul 和 springcloud gateway 的区别？
 
-## resttemplate 和 feign 的区别？
+## 8. resttemplate 和 feign 的区别？

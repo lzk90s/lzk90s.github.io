@@ -1,30 +1,27 @@
-# elasticsearch
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [elasticsearch](#elasticsearch)
-  - [倒排索引原理](#倒排索引原理)
-  - [Lucene FST 是什么？](#lucene-fst-是什么)
-  - [分词](#分词)
-  - [ES DSL](#es-dsl)
-    - [Query Context](#query-context)
-    - [Filter Context](#filter-context)
-    - [bool 复合查询](#bool-复合查询)
-  - [ES 数据写入过程](#es-数据写入过程)
-    - [ES 段合并](#es-段合并)
-  - [ES 删除数据过程](#es-删除数据过程)
-  - [ES 搜索过程](#es-搜索过程)
-    - [ES 如何解决深度分页问题](#es-如何解决深度分页问题)
-  - [ES 是如何实现 master 选举的？](#es-是如何实现-master-选举的)
-  - [如何解决 ES 集群的脑裂问题](#如何解决-es-集群的脑裂问题)
-  - [ES 调优的手段？](#es-调优的手段)
-  - [参考](#参考)
+- [1. 倒排索引原理](#1-倒排索引原理)
+- [2. Lucene FST 是什么？](#2-lucene-fst-是什么)
+- [3. 分词](#3-分词)
+- [4. ES DSL](#4-es-dsl)
+  - [4.1. Query Context](#41-query-context)
+  - [4.2. Filter Context](#42-filter-context)
+  - [4.3. bool 复合查询](#43-bool-复合查询)
+- [5. ES 数据写入过程](#5-es-数据写入过程)
+  - [5.1. ES 段合并](#51-es-段合并)
+- [6. ES 删除数据过程](#6-es-删除数据过程)
+- [7. ES 搜索过程](#7-es-搜索过程)
+  - [7.1. ES 如何解决深度分页问题](#71-es-如何解决深度分页问题)
+- [8. ES 是如何实现 master 选举的？](#8-es-是如何实现-master-选举的)
+- [9. 如何解决 ES 集群的脑裂问题](#9-如何解决-es-集群的脑裂问题)
+- [10. ES 调优的手段？](#10-es-调优的手段)
+- [11. 参考](#11-参考)
 
 <!-- /code_chunk_output -->
 
-## 倒排索引原理
+## 1. 倒排索引原理
 
 传统的检索方式是通过文章，逐个遍历找到对应关键词的位置。
 倒排索引，是通过分词策略，形成了词和文章的映射关系表，也称倒排表，这种词典 + 映射表即为倒排索引。
@@ -36,28 +33,28 @@
 1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间；
 2）查询速度快。O(len(str))的查询时间复杂度。
 
-## Lucene FST 是什么？
+## 2. Lucene FST 是什么？
 
-## 分词
+## 3. 分词
 
-## ES DSL
+## 4. ES DSL
 
-### Query Context
+### 4.1. Query Context
 
 Query Context 中的语句要计算 score
 
-### Filter Context
+### 4.2. Filter Context
 
 Filter Context 中的语句不计算 score
 
-### bool 复合查询
+### 4.3. bool 复合查询
 
 - must
 - must_not
 - should
 - filter
 
-## ES 数据写入过程
+## 5. ES 数据写入过程
 
 1. 客户端向集群某节点写入数据，发送请求。（如果没有指定路由/协调节点，请求的节点扮演协调节点的角色。）
 
@@ -73,14 +70,14 @@ shard = hash(document_id) % (num_of_primary_shards)
 5. 在 flush 过程中，内存中的缓冲将被清除，内容被写入一个新段，段的 fsync 将创建一个新的提交点，并将内容刷新到磁盘，旧的 translog 将被删除并开始一个新的 translog。
 6. flush 触发的时机是定时触发（默认 30 分钟）或者 translog 变得太大（默认为 512 M）时。
 
-### ES 段合并
+### 5.1. ES 段合并
 
 - Lucene 索引是由多个段组成，段本身是一个功能齐全的倒排索引。
 - 段是不可变的，允许 Lucene 将新的文档增量地添加到索引中，而不用从头重建索引。
 - 对于每一个搜索请求而言，索引中的所有段都会被搜索，并且每个段会消耗 CPU 的时钟周、文件句柄和内存。这意味着段的数量越多，搜索性能会越低。
 - 为了解决这个问题，Elasticsearch 会合并小段到一个较大的段，提交新的合并段到磁盘，并删除那些旧的小段。（段合并）
 
-## ES 删除数据过程
+## 6. ES 删除数据过程
 
 删除和更新也都是写操作，但是 Elasticsearch 中的文档是不可变的，因此不能被删除或者改动以展示其变更。
 
@@ -88,7 +85,7 @@ shard = hash(document_id) % (num_of_primary_shards)
 
 在新的文档被创建时，Elasticsearch 会为该文档指定一个版本号，当执行更新时，旧版本的文档在 .del 文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中被过滤掉。
 
-## ES 搜索过程
+## 7. ES 搜索过程
 
 搜索被执行成一个两阶段过程，即 Query Then Fetch；
 
@@ -98,25 +95,25 @@ shard = hash(document_id) % (num_of_primary_shards)
 **二、Fetch 阶段:**
 协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 丰富 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
 
-### ES 如何解决深度分页问题
+### 7.1. ES 如何解决深度分页问题
 
 可以采用 Scroll 滚动 API，解决深度分页问题
 
-## ES 是如何实现 master 选举的？
+## 8. ES 是如何实现 master 选举的？
 
 7.0 以前是使用的类 Bully 算法。
 7.0 以后使用的是类 Raft 算法。
 
 Elasticsearch 7.0 版本中，Elasticsearch 采用了一个新的集群协调模块（Coordinator）代替了旧版 Zen Discovery，对选主算法 Bully 也进行了更换。
 
-## 如何解决 ES 集群的脑裂问题
+## 9. 如何解决 ES 集群的脑裂问题
 
 所谓集群脑裂，是指 Elasticsearch 集群中的节点（比如共 20 个），其中的 10 个选了一个 master，另外 10 个选了另一个 master 的情况。
 
 当集群 master 候选数量不小于 3 个时，可以通过设置最少投票通过数量（discovery.zen.minimum_master_nodes）超过所有候选节点一半以上来解决脑裂问题；
 当候选数量为两个时，只能修改为唯一的一个 master 候选，其他作为 data 节点，避免脑裂问题
 
-## ES 调优的手段？
+## 10. ES 调优的手段？
 
 部署层面：
 
@@ -139,6 +136,6 @@ Elasticsearch 7.0 版本中，Elasticsearch 采用了一个新的集群协调模
 1. 基于数据+时间滚动创建索引，每天递增数据。控制单个索引的量，一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
 2. 冷热数据分离存储，热数据（比如最近 3 天或者一周的数据），其余为冷数据。对于冷数据不会再写入新数据，可以考虑定期 force_merge 加 shrink 压缩操作，节省存储空间和检索效率。
 
-## 参考
+## 11. 参考
 
 https://www.wenyuanblog.com/blogs/elasticsearch-interview-questions.html
