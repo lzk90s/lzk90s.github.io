@@ -2,53 +2,54 @@
 
 <!-- code_chunk_output -->
 
-- [整体结构](#整体结构)
-- [Atomic](#atomic)
-  - [synchronized 作用于静态方法和非静态方法的区别？](#synchronized-作用于静态方法和非静态方法的区别)
-  - [synchronized 的实现原理](#synchronized-的实现原理)
-  - [volatile 关键字的作用](#volatile-关键字的作用)
-  - [volatile 底层是如何实现禁止指令重排的？](#volatile-底层是如何实现禁止指令重排的)
-  - [锁的实现思路](#锁的实现思路)
-  - [乐观锁和悲观锁](#乐观锁和悲观锁)
-  - [乐观锁的实现：CAS（compare and swap）](#乐观锁的实现cascompare-and-swap)
-  - [什么是 CAS 的自旋](#什么是-cas-的自旋)
-  - [什么是 ABA 问题？](#什么是-aba-问题)
-  - [ABA 问题的影响](#aba-问题的影响)
-  - [如何解决 ABA 问题？](#如何解决-aba-问题)
-  - [java 中的 ABA 方案：AtomicStampedReference](#java-中的-aba-方案atomicstampedreference)
-  - [AtomicXXX 的原理](#atomicxxx-的原理)
-  - [LongAdder（累加器） 的原理，与 AtomicLong 的区别？](#longadder累加器-的原理与-atomiclong-的区别)
-- [Lock](#lock)
-  - [AQS（AbstractQueuedSynchronizer）是什么？](#aqsabstractqueuedsynchronizer是什么)
-  - [AQS 的原理](#aqs-的原理)
-  - [Lock 和 synchronized 的区别？](#lock-和-synchronized-的区别)
-- [公平锁/非公平锁](#公平锁非公平锁)
-- [同步辅助类](#同步辅助类)
-  - [CountDownLatch 的用途](#countdownlatch-的用途)
-  - [Semaphore 的用途](#semaphore-的用途)
-  - [CyclicBarrier 的用途](#cyclicbarrier-的用途)
-  - [CountDownLatch 和 CyclicBarrier 的区别？](#countdownlatch-和-cyclicbarrier-的区别)
-- [并发集合](#并发集合)
-  - [ConcurrentHashMap](#concurrenthashmap)
-    - [jdk1.7 ConcurrentHashMap 如何保证线程安全？](#jdk17-concurrenthashmap-如何保证线程安全)
-    - [jdk1.8 ConcurrentHashMap 如何保证线程安全？](#jdk18-concurrenthashmap-如何保证线程安全)
-    - [jdk1.8 ConcurrentHashMap 扩容方式](#jdk18-concurrenthashmap-扩容方式)
-    - [jdk1.8 ConcurrentHashMap 中的几个内部类](#jdk18-concurrenthashmap-中的几个内部类)
-    - [jdk1.8 ConcurrentHashMap put 流程](#jdk18-concurrenthashmap-put-流程)
-    - [jdk1.8 ConcurrentHashMap get 流程](#jdk18-concurrenthashmap-get-流程)
-    - [jdk1.8 ConcurrentHashMap size 流程](#jdk18-concurrenthashmap-size-流程)
-    - [HashMap, HashTable, ConcurrentHashMap 的区别？](#hashmap-hashtable-concurrenthashmap-的区别)
-  - [CopyOnWriteList](#copyonwritelist)
-    - [CopyOnWriteList 的 get 操作](#copyonwritelist-的-get-操作)
-- [线程池](#线程池)
-  - [线程池 ThreadPoolExecutor](#线程池-threadpoolexecutor)
-  - [线程池满了丢弃策略有哪些？](#线程池满了丢弃策略有哪些)
-  - [java 中线程池种类](#java-中线程池种类)
-  - [BlockingQueue](#blockingqueue)
-  - [java 实现定时器的几种方法](#java-实现定时器的几种方法)
-  - [java 创建线程的几种方法](#java-创建线程的几种方法)
-  - [ThreadLocal 的实现原理](#threadlocal-的实现原理)
-  - [ThreadLocal 如果不 remove 会怎样？](#threadlocal-如果不-remove-会怎样)
+- [1. 整体结构](#1-整体结构)
+- [2. Atomic](#2-atomic)
+  - [2.1. synchronized 作用于静态方法和非静态方法的区别？](#21-synchronized-作用于静态方法和非静态方法的区别)
+  - [2.2. synchronized 的实现原理](#22-synchronized-的实现原理)
+  - [2.3. volatile 关键字的作用](#23-volatile-关键字的作用)
+  - [2.4. volatile 底层是如何实现禁止指令重排的？](#24-volatile-底层是如何实现禁止指令重排的)
+  - [2.5. volatile 为什么不能实现原子性？](#25-volatile-为什么不能实现原子性)
+  - [2.6. 锁的实现思路](#26-锁的实现思路)
+  - [2.7. 乐观锁和悲观锁](#27-乐观锁和悲观锁)
+  - [2.8. 乐观锁的实现：CAS（compare and swap）](#28-乐观锁的实现cascompare-and-swap)
+  - [2.9. 什么是 CAS 的自旋](#29-什么是-cas-的自旋)
+  - [2.10. 什么是 ABA 问题？](#210-什么是-aba-问题)
+  - [2.11. ABA 问题的影响](#211-aba-问题的影响)
+  - [2.12. 如何解决 ABA 问题？](#212-如何解决-aba-问题)
+  - [2.13. java 中的 ABA 方案：AtomicStampedReference](#213-java-中的-aba-方案atomicstampedreference)
+  - [2.14. AtomicXXX 的原理](#214-atomicxxx-的原理)
+  - [2.15. LongAdder（累加器） 的原理，与 AtomicLong 的区别？](#215-longadder累加器-的原理与-atomiclong-的区别)
+- [3. Lock](#3-lock)
+  - [3.1. AQS（AbstractQueuedSynchronizer）是什么？](#31-aqsabstractqueuedsynchronizer是什么)
+  - [3.2. AQS 的原理](#32-aqs-的原理)
+  - [3.3. Lock 和 synchronized 的区别？](#33-lock-和-synchronized-的区别)
+- [4. 公平锁/非公平锁](#4-公平锁非公平锁)
+- [5. 同步辅助类](#5-同步辅助类)
+  - [5.1. CountDownLatch 的用途](#51-countdownlatch-的用途)
+  - [5.2. Semaphore 的用途](#52-semaphore-的用途)
+  - [5.3. CyclicBarrier 的用途](#53-cyclicbarrier-的用途)
+  - [5.4. CountDownLatch 和 CyclicBarrier 的区别？](#54-countdownlatch-和-cyclicbarrier-的区别)
+- [6. 并发集合](#6-并发集合)
+  - [6.1. ConcurrentHashMap](#61-concurrenthashmap)
+    - [6.1.1. jdk1.7 ConcurrentHashMap 如何保证线程安全？](#611-jdk17-concurrenthashmap-如何保证线程安全)
+    - [6.1.2. jdk1.8 ConcurrentHashMap 如何保证线程安全？](#612-jdk18-concurrenthashmap-如何保证线程安全)
+    - [6.1.3. jdk1.8 ConcurrentHashMap 扩容方式](#613-jdk18-concurrenthashmap-扩容方式)
+    - [6.1.4. jdk1.8 ConcurrentHashMap 中的几个内部类](#614-jdk18-concurrenthashmap-中的几个内部类)
+    - [6.1.5. jdk1.8 ConcurrentHashMap put 流程](#615-jdk18-concurrenthashmap-put-流程)
+    - [6.1.6. jdk1.8 ConcurrentHashMap get 流程](#616-jdk18-concurrenthashmap-get-流程)
+    - [6.1.7. jdk1.8 ConcurrentHashMap size 流程](#617-jdk18-concurrenthashmap-size-流程)
+    - [6.1.8. HashMap, HashTable, ConcurrentHashMap 的区别？](#618-hashmap-hashtable-concurrenthashmap-的区别)
+  - [6.2. CopyOnWriteList](#62-copyonwritelist)
+    - [6.2.1. CopyOnWriteList 的 get 操作](#621-copyonwritelist-的-get-操作)
+- [7. 线程池](#7-线程池)
+  - [7.1. 线程池 ThreadPoolExecutor](#71-线程池-threadpoolexecutor)
+  - [7.2. 线程池满了丢弃策略有哪些？](#72-线程池满了丢弃策略有哪些)
+  - [7.3. java 中线程池种类](#73-java-中线程池种类)
+  - [7.4. BlockingQueue](#74-blockingqueue)
+  - [7.5. java 实现定时器的几种方法](#75-java-实现定时器的几种方法)
+  - [7.6. java 创建线程的几种方法](#76-java-创建线程的几种方法)
+  - [7.7. ThreadLocal 的实现原理](#77-threadlocal-的实现原理)
+  - [7.8. ThreadLocal 如果不 remove 会怎样？](#78-threadlocal-如果不-remove-会怎样)
 
 <!-- /code_chunk_output -->
 
@@ -84,46 +85,50 @@
 
 内存屏障
 
-### 2.5. 锁的实现思路
+### 2.5. volatile 为什么不能实现原子性？
+
+i++这样的操作，在底层是有多条指令的，volatile 只是保证了变量更新后，用内存屏障让其他线程可见
+
+### 2.6. 锁的实现思路
 
 - 锁是一个共享资源
 - 单机多线程情况，内存相同，可以用内存实现锁，例如 CAS，mutex 等
 - 多机分布式，可以用一个统一的第三方，来实现共享锁，例如数据库，通过 update 某一行的成功与否，来判断是否获取到锁。
 
-### 2.6. 乐观锁和悲观锁
+### 2.7. 乐观锁和悲观锁
 
 - 悲观锁具有强烈的排他性，获取到锁后，其他人只能等待锁的释放，例如 synchronized
 - 乐观锁并未真正加锁，通常是使用 CAS 方式
 
-### 2.7. 乐观锁的实现：CAS（compare and swap）
+### 2.8. 乐观锁的实现：CAS（compare and swap）
 
 CAS 是依赖于 cpu 的原子指令的，linux 下使用了 cmpxchg 原子性操作方法。
 
-### 2.8. 什么是 CAS 的自旋
+### 2.9. 什么是 CAS 的自旋
 
 获取锁失败后，为了避免直接让线程进入阻塞状态而采取的循环一定次数去试着获取锁的行为，为什么能这样做呢，因为用户态和内核态的切换非常消耗系统资源，锁的持有时间一般非常短，所以一般多次尝试就能竞争到锁。
 
-### 2.9. 什么是 ABA 问题？
+### 2.10. 什么是 ABA 问题？
 
 改了又还原回来，感觉是没有修改过，其实已经变化了。某些情况下是致命的错误，例如链表操作。
 
-### 2.10. ABA 问题的影响
+### 2.11. ABA 问题的影响
 
 - 操作链表过程中， CAS 问题可能会导致链表错误
 
-### 2.11. 如何解决 ABA 问题？
+### 2.12. 如何解决 ABA 问题？
 
 ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的状态，比如修改的次数，否修改过这个变量。这样就很容易在一个线程将 A 修改成 B 时，另一个线程又会把 B 修改成 A,造成 casd 多次执行的问题。
 所以，解决 ABA 问题的方法就是，引入一个业务无关的变量，来记录对业务变量的修改，通常是版本号，或者时间戳。
 
-### 2.12. java 中的 ABA 方案：AtomicStampedReference
+### 2.13. java 中的 ABA 方案：AtomicStampedReference
 
-### 2.13. AtomicXXX 的原理
+### 2.14. AtomicXXX 的原理
 
 1. 使用 volatile 保存变量，保证多线程变量的可见性，使缓存失效。
 2. 用 CAS+自旋方式，实现原子操作
 
-### 2.14. LongAdder（累加器） 的原理，与 AtomicLong 的区别？
+### 2.15. LongAdder（累加器） 的原理，与 AtomicLong 的区别？
 
 LongAdder 类与 AtomicLong 类的区别在于高并发时前者将对单一变量的 CAS 操作分散为对数组 cells 中多个元素的 CAS 操作，取值时进行求和；而在并发较低时仅对 base 变量进行 CAS 操作，与 AtomicLong 类原理相同
 
