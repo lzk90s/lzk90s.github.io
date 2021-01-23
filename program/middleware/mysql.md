@@ -45,10 +45,14 @@
   - [4.4. nex-key lock（间隙锁和行锁的合集称）](#44-nex-key-lock间隙锁和行锁的合集称)
     - [4.4.1. next -key lock 影响并发怎么办？](#441-next-key-lock-影响并发怎么办)
   - [4.5. select for update 什么情况会使用间隙锁？](#45-select-for-update-什么情况会使用间隙锁)
-  - [4.6. 共享锁、排他锁](#46-共享锁-排他锁)
+  - [4.6. 共享锁 & 排他所](#46-共享锁-排他所)
   - [4.7. 锁优化](#47-锁优化)
-  - [4.8. mysql 如何监控死锁？](#48-mysql-如何监控死锁)
-  - [4.9. AUTO-INC 锁（AUTO_INCREMENT 的原理）](#49-auto-inc-锁auto_increment-的原理)
+  - [4.8. mysql 死锁产生的原因及处理方法](#48-mysql-死锁产生的原因及处理方法)
+    - [4.8.1. 加锁顺序不一致导致死锁](#481-加锁顺序不一致导致死锁)
+    - [4.8.2. 共享锁升级为排他锁导致死锁](#482-共享锁升级为排他锁导致死锁)
+    - [4.8.3. 间隙锁不互斥导致死锁](#483-间隙锁不互斥导致死锁)
+  - [4.9. mysql 如何监控死锁？](#49-mysql-如何监控死锁)
+  - [4.10. AUTO-INC 锁（AUTO_INCREMENT 的原理）](#410-auto-inc-锁auto_increment-的原理)
 - [5. 日志模块](#5-日志模块)
   - [5.1. binlog（归档日志）](#51-binlog归档日志)
     - [5.1.1. binlog 的三种模式的区别？](#511-binlog-的三种模式的区别)
@@ -273,15 +277,126 @@ mysql RC 模式下，没有解决幻读的问题，用 STATEMENT 方式可能会
 
 ### 4.5. select for update 什么情况会使用间隙锁？
 
-### 4.6. 共享锁、排他锁
+where 后条件对应的数据不存在时，加间隙锁，为了解决幻读问题
+
+### 4.6. 共享锁 & 排他所
+
+数据库的增删改操作默认都会加排他锁，而查询不会加任何锁。查询 select 要加锁则要显示指定
+
+- select \* lock in share mode ---- 共享锁
+- select \* from update ---- 排他锁
 
 ### 4.7. 锁优化
 
-### 4.8. mysql 如何监控死锁？
+### 4.8. mysql 死锁产生的原因及处理方法
+
+#### 4.8.1. 加锁顺序不一致导致死锁
+
+T1:
+
+```sql
+begin;
+select * from xxx where id=1 for update;
+select * from xxx where id=2 for update;
+```
+
+T2:
+
+```sql
+begin:
+select * from xxx where id=2 for update;
+select * from xxx where id=1 for update;   --- 产生死锁
+```
+
+由于 id 为主健，加锁时是使用行锁，假设两个事务同时执行了第一条 update 语句，执行第二条 update 语句时，锁被对方持有，没法获取到，导致死锁。
+
+解决办法：加锁顺序一致，或者放到一个锁里面
+
+T1:
+
+```sql
+begin;
+select * from xxx where id in (xx,xx,xx) for update
+```
+
+T2:
+
+```sql
+begin;
+select * from xxx where id in (xx,xx,xx) for update
+```
+
+#### 4.8.2. 共享锁升级为排他锁导致死锁
+
+两个 session 同时加 share lock,然后 update，会导致死锁
+
+T1:
+
+```sql
+begin
+select * from xxx lock in share mode;
+update xxx set col='11';
+```
+
+T2:
+
+```sql
+begin
+select * from xxx lock in share mode;
+update xxx se col='22';          --- 产生死锁
+```
+
+由于第一步都是加了共享锁，第二步 update 时，需要升级为排他锁，但是由于已经被加了共享锁，锁还没有释放，两边都得等待。
+
+解决办法：申请锁的时候，一开始就申请排他锁，而不是申请共享锁。
+
+T1:
+
+```sql
+begin
+select * from xxx for update;
+update xxx set col='11';
+```
+
+T1:
+
+```sql
+begin
+select * from xxx for update;
+update xxx se col='22';
+```
+
+#### 4.8.3. 间隙锁不互斥导致死锁
+
+两个事务获取到同一个范围间隙时，由于间隙锁不互斥，如果后续两个 insert 插入同一个间隙，insert 相互等待对方释放间隙锁，导致死锁
+
+T1:
+
+```sql
+begin;
+delete from t_user where id=30;  # id=30的记录不存在，会用gaplock
+insert into t_user values(30, 'xx', 'ajjj');
+
+```
+
+T2:
+
+```sql
+begin;
+delete from t_user where id=32;  # id=32的记录不存在，会使用gaplock，gaplock和T1里面锁的范围一样了
+insert into t_user values(32, 'xx', 'ajjj');    # 产生死锁
+```
+
+解决办法：
+
+1. 使用存在的主健 id 进行更新、删除
+2. 事务级别设置为 RC 级别，不使用 gaplock，不过可能有其他副作用
+
+### 4.9. mysql 如何监控死锁？
 
 配置 mysql 参数 innodb_print_all_deadlocks，当死锁的时候会把死锁信息输出到日志中。
 
-### 4.9. AUTO-INC 锁（AUTO_INCREMENT 的原理）
+### 4.10. AUTO-INC 锁（AUTO_INCREMENT 的原理）
 
 - AUTO-INC 锁是当向使用含有 AUTO_INCREMENT 列的表中插入数据时需要获取的一种特殊的表级锁。
 
