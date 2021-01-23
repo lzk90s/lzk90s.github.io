@@ -28,7 +28,7 @@
 
 [assembly(x64)](language/asm/asm.md)  
 [c/c++](language/c++/cpp.md)  
-[java](language/java/java.md), [jdk 并发包](language/java/java_concurrent.md), [jvm 虚拟机](language/java/jvm.md)  
+[java](language/java/java.md), [jdk 并发包](language/java/juc.md), [jvm 虚拟机](language/java/jvm.md)  
 [go](language/go/golang.md)  
 [shell](language/shell/shell.md)  
 [python](language/python/python.md)
