@@ -51,16 +51,18 @@
 
 [常用算法](algorithm/algorithm.md)
 
-## 架构 & 设计
+## 设计 & 架构
 
 ---
 
 [设计模式](architecture/designmod.md)  
 [领域驱动设计 DDD](architecture/ddd.md)  
-[分布式架构](architecture/distribute.md)  
-[微服务 & SpringCloud](architecture/microservice.md)  
-[Service Mesh](architecture/service_mesh.md)  
 [C4 架构设计](architecture/c4_model.md)
+
+[分布式架构](architecture/distribute.md)
+[高并发系统架构设计](architecture/high_concurency.md)  
+[微服务架构设计](architecture/microservice.md)  
+[Service Mesh](architecture/service_mesh.md)
 
 ## 常用框架
 

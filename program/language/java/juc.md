@@ -25,7 +25,12 @@
   - [2.3. Lock 和 synchronized 的区别？](#23-lock-和-synchronized-的区别)
   - [2.4. 公平锁/非公平锁](#24-公平锁非公平锁)
   - [2.5. synchronized 是公平锁还是非公平锁？](#25-synchronized-是公平锁还是非公平锁)
-  - [2.6. ReentrantLock 源码实现](#26-reentrantlock-源码实现)
+  - [2.6. synchronized 锁升级过程](#26-synchronized-锁升级过程)
+    - [2.6.1. synchronized 中偏向锁的作用？](#261-synchronized-中偏向锁的作用)
+    - [2.6.2. synchronized 中轻量级锁（也叫 自旋锁 / CAS）的作用？](#262-synchronized-中轻量级锁也叫-自旋锁-cas的作用)
+    - [2.6.3. synchronized 中重量级锁的作用？](#263-synchronized-中重量级锁的作用)
+  - [2.7. ReentrantLock 源码实现](#27-reentrantlock-源码实现)
+  - [2.8. LockSupport.pack && LockSupport.unpack 的原理](#28-locksupportpack-locksupportunpack-的原理)
 - [3. 同步辅助类模块](#3-同步辅助类模块)
   - [3.1. CountDownLatch 的用途](#31-countdownlatch-的用途)
   - [3.2. Semaphore 的用途](#32-semaphore-的用途)
@@ -168,7 +173,38 @@ LongAdder 类与 AtomicLong 类的区别在于高并发时前者将对单一变�
 
 synchronized 是非公平锁
 
-### 2.6. ReentrantLock 源码实现
+### 2.6. synchronized 锁升级过程
+
+无锁->偏向锁->自旋锁->重量级锁
+
+偏向锁、自旋锁都是用户空间完成，JVM 自己管理；
+重量级锁需要向内核申请
+
+| 锁状态   | 优点                                   | 缺点                                 | 适用场景                           |
+| :------- | :------------------------------------- | :----------------------------------- | :--------------------------------- |
+| 偏向锁   | 加锁、解锁无额外消耗，和非同步方式近似 | 如果竞争线程多，会有额外锁撤销的消耗 | 基本没有线程竞争的场景             |
+| 轻量级锁 | 竞争线程不会阻塞，使用自旋等待         | 如果长时间不能获取锁，会消耗 CPU     | 少量线程竞争，且线程持有锁时间不长 |
+| 重量级锁 | 竞争线程被阻塞，减少 CPU 空转          | 线程阻塞，响应时间长                 | 很多线程竞争，锁持有时间长         |
+
+#### 2.6.1. synchronized 中偏向锁的作用？
+
+Vector，StringBuffer 都有很多使用了 syncronized 的同步方法，但是在工业实践中，我们通常是在单线程的时候使用它的，**没有必要 **设计 锁竞争机制。为了在没有竞争的情况下减少锁开销，偏向锁偏向于第一个获得它的线程，把第一个访问的 线程 id（在 C++实现中叫线程指针） 写到 markword 中，而不去真正加锁。如果一直没有被其他线程竞争，则持有偏向锁的线程将不需要进行同步。
+
+#### 2.6.2. synchronized 中轻量级锁（也叫 自旋锁 / CAS）的作用？
+
+偏向锁时，有其他线程来竞争锁，则先把 偏向锁撤销，然后进行 自旋锁（轻量级锁）竞争。
+
+#### 2.6.3. synchronized 中重量级锁的作用？
+
+线程始终得不到锁会自旋消耗 CPU，当竞争很大的时候，锁升级为操作系统级的锁，减少 CPU 自旋消耗。
+重量级锁在操作系统层有一个 waitset 等待队列，不需要 CAS 消耗 CPU 时间。由操作系统的 CFS 公平调度策略来调度。
+
+### 2.7. ReentrantLock 源码实现
+
+### 2.8. LockSupport.pack && LockSupport.unpack 的原理
+
+pack：阻塞线程，jvm 层，通过 pthread_cond_timedwait 阻塞
+unpack：激活线程，jvm 层，通过 pthread_cond_signal 来唤醒阻塞的线程
 
 ## 3. 同步辅助类模块
 
