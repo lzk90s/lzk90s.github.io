@@ -19,7 +19,7 @@
   - [1.14. java 中的 ABA 方案：AtomicStampedReference](#114-java-中的-aba-方案atomicstampedreference)
   - [1.15. AtomicXXX 的原理](#115-atomicxxx-的原理)
   - [1.16. LongAdder（累加器） 的原理，与 AtomicLong 的区别？](#116-longadder累加器-的原理与-atomiclong-的区别)
-- [2. Lock 模块](#2-lock-模块)
+- [2. Lock 模块（基于 AQS 实现）](#2-lock-模块基于-aqs-实现)
   - [2.1. AQS（AbstractQueuedSynchronizer）是什么？](#21-aqsabstractqueuedsynchronizer是什么)
   - [2.2. AQS 的原理](#22-aqs-的原理)
   - [2.3. Lock 和 synchronized 的区别？](#23-lock-和-synchronized-的区别)
@@ -31,7 +31,7 @@
     - [2.6.3. synchronized 中重量级锁的作用？](#263-synchronized-中重量级锁的作用)
   - [2.7. ReentrantLock 源码实现](#27-reentrantlock-源码实现)
   - [2.8. LockSupport.pack && LockSupport.unpack 的原理](#28-locksupportpack-locksupportunpack-的原理)
-- [3. 同步辅助类模块](#3-同步辅助类模块)
+- [3. 同步辅助类模块（基于 AQS 实现）](#3-同步辅助类模块基于-aqs-实现)
   - [3.1. CountDownLatch 的用途](#31-countdownlatch-的用途)
   - [3.2. Semaphore 的用途](#32-semaphore-的用途)
   - [3.3. CyclicBarrier 的用途](#33-cyclicbarrier-的用途)
@@ -46,8 +46,8 @@
     - [4.1.6. jdk1.8 ConcurrentHashMap get 流程](#416-jdk18-concurrenthashmap-get-流程)
     - [4.1.7. jdk1.8 ConcurrentHashMap size 流程](#417-jdk18-concurrenthashmap-size-流程)
     - [4.1.8. HashMap, HashTable, ConcurrentHashMap 的区别？](#418-hashmap-hashtable-concurrenthashmap-的区别)
-  - [4.2. CopyOnWriteList](#42-copyonwritelist)
-    - [4.2.1. CopyOnWriteList 的 get 操作](#421-copyonwritelist-的-get-操作)
+  - [4.2. CopyOnWriteArrayList](#42-copyonwritearraylist)
+    - [4.2.1. CopyOnWriteArrayList 的 get 操作](#421-copyonwritearraylist-的-get-操作)
   - [4.3. SkipList](#43-skiplist)
 - [5. 线程池模块](#5-线程池模块)
   - [5.1. 线程池 ThreadPoolExecutor](#51-线程池-threadpoolexecutor)
@@ -58,6 +58,7 @@
   - [5.6. java 创建线程的几种方法](#56-java-创建线程的几种方法)
   - [5.7. ThreadLocal 的实现原理](#57-threadlocal-的实现原理)
   - [5.8. ThreadLocal 如果不 remove 会怎样？](#58-threadlocal-如果不-remove-会怎样)
+  - [5.9. ForkJoinPool 实现原理](#59-forkjoinpool-实现原理)
 
 <!-- /code_chunk_output -->
 
@@ -142,7 +143,7 @@ ABA 问题的根本在于 cas 在修改变量的时候，无法记录变量的�
 
 LongAdder 类与 AtomicLong 类的区别在于高并发时前者将对单一变量的 CAS 操作分散为对数组 cells 中多个元素的 CAS 操作，取值时进行求和；而在并发较低时仅对 base 变量进行 CAS 操作，与 AtomicLong 类原理相同
 
-## 2. Lock 模块
+## 2. Lock 模块（基于 AQS 实现）
 
 ### 2.1. AQS（AbstractQueuedSynchronizer）是什么？
 
@@ -201,12 +202,16 @@ Vector，StringBuffer 都有很多使用了 syncronized 的同步方法，但是
 
 ### 2.7. ReentrantLock 源码实现
 
+1. 初始化，可以指定公平锁和非公平锁实现
+2. 非公平锁 lock 时，先用 cas 判断下当前锁是否被占用，没有占用直接抢占锁。否则，把当前线程封装成一个 Node,加入到 AQS 的双链表尾部，再用 LockSupport.pack 阻塞当前线程。
+3. 非公平锁 unlock 时，释放锁，然后从 AQS 的链表头部取一个 Node,用 LockSupport.unpack 唤醒线程，线程就继续开始竞争锁。
+
 ### 2.8. LockSupport.pack && LockSupport.unpack 的原理
 
 pack：阻塞线程，jvm 层，通过 pthread_cond_timedwait 阻塞
 unpack：激活线程，jvm 层，通过 pthread_cond_signal 来唤醒阻塞的线程
 
-## 3. 同步辅助类模块
+## 3. 同步辅助类模块（基于 AQS 实现）
 
 ### 3.1. CountDownLatch 的用途
 
@@ -230,6 +235,14 @@ unpack：激活线程，jvm 层，通过 pthread_cond_signal 来唤醒阻塞的�
 - CyclicBarrier 更像是一个阀门，需要所有线程都到达，阀门才能打开，然后继续执行。
 
 ## 4. 并发集合模块
+
+| interface | non-thread-safe         | thread-safe                              |
+| :-------- | :---------------------- | :--------------------------------------- |
+| List      | ArrayList               | CopyOnWriteArrayList                     |
+| Map       | HashMap                 | ConcurrentHashMap                        |
+| Set       | HashSet / TreeSet       | CopyOnWriteArraySet                      |
+| Queue     | ArrayDeque / LinkedList | ArrayBlockingQueue / LinkedBlockingQueue |
+| Deque     | ArrayDeque / LinkedList | LinkedBlockingDeque                      |
 
 ### 4.1. ConcurrentHashMap
 
@@ -283,9 +296,9 @@ unpack：激活线程，jvm 层，通过 pthread_cond_signal 来唤醒阻塞的�
 - 不允许 key 和 value 为 null，HashTable 是线程安全的，不过比较暴力，直接 get/put 等所有相关操作都是 synchronized 的，同步代价大。
 - ConcurrentHashMap 采用了“分段锁”机制代替了 HashTable 的“独占锁”，从而大大提高了性能。
 
-### 4.2. CopyOnWriteList
+### 4.2. CopyOnWriteArrayList
 
-#### 4.2.1. CopyOnWriteList 的 get 操作
+#### 4.2.1. CopyOnWriteArrayList 的 get 操作
 
 ### 4.3. SkipList
 
@@ -457,3 +470,5 @@ public class ThreadLocal<T> {
 ### 5.8. ThreadLocal 如果不 remove 会怎样？
 
 1. 内存泄漏：ThreadLocalMap 的 Entry 为弱引用，当下一次 GC 的时候，弱引用的对象会被回收，会导致 map 的 key 为 null,为 null 的 key 没法从 map 里面 get 出来。导致内存泄漏。
+
+### 5.9. ForkJoinPool 实现原理
