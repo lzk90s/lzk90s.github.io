@@ -59,6 +59,8 @@
   - [5.7. ThreadLocal 的实现原理](#57-threadlocal-的实现原理)
   - [5.8. ThreadLocal 如果不 remove 会怎样？](#58-threadlocal-如果不-remove-会怎样)
   - [5.9. ForkJoinPool 实现原理](#59-forkjoinpool-实现原理)
+  - [5.10. Future get（timeout) 超时了执行线程的状态？](#510-future-gettimeout-超时了执行线程的状态)
+  - [5.11. CompletableFuture 原理](#511-completablefuture-原理)
 
 <!-- /code_chunk_output -->
 
@@ -472,3 +474,9 @@ public class ThreadLocal<T> {
 1. 内存泄漏：ThreadLocalMap 的 Entry 为弱引用，当下一次 GC 的时候，弱引用的对象会被回收，会导致 map 的 key 为 null,为 null 的 key 没法从 map 里面 get 出来。导致内存泄漏。
 
 ### 5.9. ForkJoinPool 实现原理
+
+### 5.10. Future get（timeout) 超时了执行线程的状态？
+
+Future get 超时后，执行线程继续在执行任务，除非手动调用 cancel 取消任务。所以，后续还是可以继续用 get 来获取结果的。
+
+### 5.11. CompletableFuture 原理
