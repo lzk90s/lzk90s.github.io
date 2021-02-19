@@ -59,9 +59,10 @@
 [领域驱动设计 DDD](architecture/ddd.md)  
 [C4 架构设计](architecture/c4_model.md)
 
-[分布式架构](architecture/distribute.md)  
-[高并发系统架构设计](architecture/high_concurency.md)  
-[微服务架构设计](architecture/microservice.md)  
+[分布式](architecture/distribute.md)  
+[高并发](architecture/high_concurency.md)  
+[高可用](architecture/high_available.md)  
+[微服务](architecture/microservice.md)  
 [Service Mesh](architecture/service_mesh.md)
 
 ## 常用框架
