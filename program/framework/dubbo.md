@@ -8,10 +8,13 @@
 - [4. 生产者](#4-生产者)
   - [4.1. 服务是如何发布的](#41-服务是如何发布的)
 - [5. 重要的 SPI 扩展点](#5-重要的-spi-扩展点)
-  - [5.2. Invoker](#52-invoker)
-  - [5.4. ProxyFactory](#54-proxyfactory)
+  - [5.1. Invoker](#51-invoker)
+  - [5.2. ProxyFactory](#52-proxyfactory)
   - [5.3. Cluster](#53-cluster)
-  - [5.1. Protocol](#51-protocol)
+    - [5.3.1. Directory(StaticDirectory, RegistryDirectory)](#531-directorystaticdirectory-registrydirectory)
+    - [5.3.2. Router](#532-router)
+    - [5.3.3. LoadBalance](#533-loadbalance)
+  - [5.4. Protocol](#54-protocol)
 
 <!-- /code_chunk_output -->
 
@@ -36,5 +39,11 @@
 ### 5.2. ProxyFactory
 
 ### 5.3. Cluster
+
+#### 5.3.1. Directory(StaticDirectory, RegistryDirectory)
+
+#### 5.3.2. Router
+
+#### 5.3.3. LoadBalance
 
 ### 5.4. Protocol

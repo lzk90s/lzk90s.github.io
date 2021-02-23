@@ -31,6 +31,7 @@
     - [2.6.3. synchronized 中重量级锁的作用？](#263-synchronized-中重量级锁的作用)
   - [2.7. ReentrantLock 源码实现](#27-reentrantlock-源码实现)
   - [2.8. LockSupport.pack && LockSupport.unpack 的原理](#28-locksupportpack-locksupportunpack-的原理)
+  - [2.9. 锁的优化思路](#29-锁的优化思路)
 - [3. 同步辅助类模块（基于 AQS 实现）](#3-同步辅助类模块基于-aqs-实现)
   - [3.1. CountDownLatch 的用途](#31-countdownlatch-的用途)
   - [3.2. Semaphore 的用途](#32-semaphore-的用途)
@@ -212,6 +213,13 @@ Vector，StringBuffer 都有很多使用了 syncronized 的同步方法，但是
 
 pack：阻塞线程，jvm 层，通过 pthread_cond_timedwait 阻塞
 unpack：激活线程，jvm 层，通过 pthread_cond_signal 来唤醒阻塞的线程
+
+### 2.9. 锁的优化思路
+
+1. 减小锁的范围：只针对需要加锁的步骤加锁
+2. 减小锁的粒度：例如 ConcurrentHashMap 在 1.7 和 1.8 的区别
+3. 读写锁分离：将读操作与写操作分别加锁，适用于读操作次数远远大于写操作
+4. 无锁方式：ThreadLocal
 
 ## 3. 同步辅助类模块（基于 AQS 实现）
 
