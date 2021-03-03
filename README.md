@@ -1,5 +1,7 @@
 # 知识地图(updating)
 
+![](earth.gif)
+
 ## 《计算机技术》[Program](program/README.md)
 
 ## 《经管》[Economy](economy/README.md)
