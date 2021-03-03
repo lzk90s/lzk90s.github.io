@@ -2,15 +2,15 @@
 
 <!-- code_chunk_output -->
 
-- [限流原理（令牌桶）](#限流原理令牌桶)
-- [熔断 、降级](#熔断-降级)
-- [链路追踪](#链路追踪)
-- [Hystrix](#hystrix)
-  - [线程池和信号量隔离](#线程池和信号量隔离)
-- [负载均衡策略](#负载均衡策略)
-- [作为服务注册中心，Eureka 比 Zookeeper 的区别?](#作为服务注册中心eureka-比-zookeeper-的区别)
-- [zuul 和 springcloud gateway 的区别？](#zuul-和-springcloud-gateway-的区别)
-- [resttemplate 和 feign 的区别？](#resttemplate-和-feign-的区别)
+- [1. 限流原理（令牌桶）](#1-限流原理令牌桶)
+- [2. 熔断 、降级](#2-熔断-降级)
+- [3. 链路追踪](#3-链路追踪)
+- [4. Hystrix](#4-hystrix)
+  - [4.1. 线程池和信号量隔离](#41-线程池和信号量隔离)
+- [5. 负载均衡策略](#5-负载均衡策略)
+- [6. 作为服务注册中心，Eureka 比 Zookeeper 的区别?](#6-作为服务注册中心eureka-比-zookeeper-的区别)
+- [7. 微服务治理](#7-微服务治理)
+- [8. 微服务监控](#8-微服务监控)
 
 <!-- /code_chunk_output -->
 
@@ -69,6 +69,6 @@
 
 Zookeeper 保证的是 CP, Eureka 则是 AP。
 
-## 7. zuul 和 springcloud gateway 的区别？
+## 7. 微服务治理
 
-## 8. resttemplate 和 feign 的区别？
+## 8. 微服务监控
