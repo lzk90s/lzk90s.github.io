@@ -4,7 +4,7 @@
 
 ## 《计算机技术》[Program](program/README.md)
 
-## 《经管》[Economy](economy/README.md)
+## 《经济金融》[Economy](economy/README.md)
 
 ## 《团队管理》[Team](team/README.md)
 

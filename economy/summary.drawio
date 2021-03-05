@@ -1,0 +1,22 @@
+<mxfile host="65bd71144e" modified="2021-03-05T03:44:59.744Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.53.2 Chrome/87.0.4280.141 Electron/11.2.1 Safari/537.36" version="14.2.4" etag="lAg4QWMaaJ3GhyxVxHYN" type="embed">
+    <diagram id="4dO-44nQPfcHpJhMTw7Y" name="Page-1">
+        <mxGraphModel dx="763" dy="366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="505" width="535" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="宏观经济学" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="520" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="微观经济学" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="520" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="金融学" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="520" width="100" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
