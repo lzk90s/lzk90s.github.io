@@ -88,6 +88,8 @@
 | 流媒体         | [ffmpeg](middleware/ffmpeg.md)               |
 | 分布式事务     | [Seata](middleware/seata.md)                 |
 | 大数据（TODO） | spark, flink                                 |
+| 时序数据库     | [influx](middleware/influx.md)               |
+| nosql          | [mongodb](middleware/mongo.md)               |
 
 ## 工程化
 
