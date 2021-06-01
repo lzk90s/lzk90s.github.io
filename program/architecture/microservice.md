@@ -94,6 +94,8 @@ Zookeeper 保证的是 CP, Eureka 则是 AP。
 
 ### 2.6. trace 埋点
 
+skywalking
+
 ## 3. 微服务运维
 
 ### 3.1. 灰度发布
