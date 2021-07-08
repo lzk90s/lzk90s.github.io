@@ -80,11 +80,11 @@
 
 Zookeeper 保证的是 CP, Eureka 则是 AP。
 
-## 2. 微服务监控
+## 2. 微服务监控 & 报警
 
 ### 2.1. 监控可视化（grafana）
 
-### 2.2. 服务器系统级监控（falcon）
+### 2.2. 服务器系统级监控（falcon，Promethues，美团 cat）
 
 ### 2.3. 语言层监控（jvm 监控）
 
@@ -94,10 +94,19 @@ Zookeeper 保证的是 CP, Eureka 则是 AP。
 
 ### 2.6. trace 埋点
 
-skywalking
-
 ## 3. 微服务运维
 
 ### 3.1. 灰度发布
 
 ### 3.2. CD 自动部署
+
+## 4. 微服务工具箱
+
+服务注册发现：Eurake，Dobbo，Consul，ZooKeeper，Nacos
+服务配置：Nacos
+服务熔断：Hystrix，resilience4j，Sentinel
+网关：Zuul，Spring Cloud Gateway
+负载均衡：Ribbon，Feign
+追踪工具：Sleuth，Zipkin，Htrace，Skywalking
+日志采集：ELK
+监控平台：Promethues，Kibana，grafna，美团 CAT
