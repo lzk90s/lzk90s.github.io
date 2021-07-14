@@ -16,9 +16,8 @@
 
 ## 2. 如何保障系统的高可用
 
+![high_available](high_available.jpg)
+
 集群（冗余） + 故障自动转移
 
 ## 3. 高可用实施
-
-1. keepalive + virtualip
-2.
