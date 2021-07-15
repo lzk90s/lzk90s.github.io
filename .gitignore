@@ -1,3 +1,4 @@
 *.html
 assets/
 _config.yml
+.DS_Store
