@@ -2,22 +2,20 @@
 
 <!-- ![](earth.gif) -->
 
---
+## [技术](program/README.md)
 
-## <<技术>> [Program](program/README.md)
+## [项目](pmp/README.md)
 
-## <<项目>> [PMP](pmp/README.md)
-
-## <<产品>> [Product](product/readme.md)
+## [产品](product/readme.md)
 
 ---
 
-## <<经济金融>> [Economy](economy/README.md)
+## [经济金融](economy/README.md)
 
-## <<团队管理>> [Team](team/README.md)
+## [团队管理](team/README.md)
 
 ---
 
-## <<工具>> [Tool](tool/README.md)
+## [工具](tool/README.md)
 
-## <<方法论>> [Methodology](methodology/README.md)
+## [方法论](methodology/README.md)
