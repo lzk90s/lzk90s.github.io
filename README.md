@@ -18,4 +18,4 @@
 
 ## [工具](tool/README.md)
 
-## [方法论](methodology/README.md)
+## [方法](methodology/README.md)

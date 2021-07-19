@@ -7,6 +7,7 @@
 - [3. PDCA 循环](#3-pdca-循环)
 - [4. 四象限时间管理法](#4-四象限时间管理法)
 - [5. SWOT 分析法](#5-swot-分析法)
+- [6. OKR（object - key results）](#6-okrobject-key-results)
 
 <!-- /code_chunk_output -->
 
@@ -19,3 +20,5 @@
 ## 4. 四象限时间管理法
 
 ## 5. SWOT 分析法
+
+## 6. OKR（object - key results）
