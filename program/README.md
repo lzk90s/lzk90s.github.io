@@ -77,22 +77,24 @@
 
 ---
 
-| 领域分类       | 链接                                         |
-| :------------- | :------------------------------------------- |
-| web 服务器     | [nginx](middleware/nginx.md)                 |
-| 消息队列       | [kafka](middleware/kafka.md)                 |
-| 调试分析       | [arthas](middleware/arthas.md)               |
-| 数据库         | [mysql](middleware/mysql.md)                 |
-| 缓存           | [redis](middleware/redis.md)                 |
-| 搜索           | [elasticsearch](middleware/elasticsearch.md) |
-| 流媒体         | [ffmpeg](middleware/ffmpeg.md)               |
-| 分布式事务     | [Seata](middleware/seata.md)                 |
-| 流式计算       | flink                                        |
-| 时序数据库     | [influx](middleware/influx.md)               |
-| nosql          | [mongodb](middleware/mongo.md)               |
-| 安全           | openRASP                                     |
-| 向量检索       | [milvus](middleware/milvus.md)               |
-| 微服务链路追踪 | skywalking                                   |
+| 领域分类       | 链接                                         | 应用场景                               |
+| :------------- | :------------------------------------------- | -------------------------------------- |
+| web 服务器     | [nginx](middleware/nginx.md)                 | web 服务器，反向代理                   |
+| 消息队列       | [kafka](middleware/kafka.md), pulsar         | 消息削峰，分布式最终一致性消息队列方案 |
+| 调试分析       | [arthas](middleware/arthas.md)               | 生产环境调试，类似 gdb                 |
+| 数据库         | [mysql](middleware/mysql.md)                 | 关系型数据存储                         |
+| 缓存           | [redis](middleware/redis.md)                 | 缓存数据提高性能，分布式锁等           |
+| 搜索           | [elasticsearch](middleware/elasticsearch.md) | 全文检索                               |
+| 流媒体         | [ffmpeg](middleware/ffmpeg.md)               | 视频播放                               |
+| 分布式事务     | [Seata](middleware/seata.md)                 | 分布式事务管理，支持多种模式           |
+| 流式计算       | flink                                        | 流式计算                               |
+| 时序数据库     | [influx](middleware/influx.md)               | trace 采集，监控运维 ，带时间性的数据  |
+| nosql          | [mongodb](middleware/mongo.md)               | 非关系型数据库                         |
+| 安全           | openRASP                                     | 无侵入式 java 应用程序安全性           |
+| 向量检索       | [milvus](middleware/milvus.md)               | 非结构化数据提取向量，再进行向量检索   |
+| 图数据库       | neo4j                                        | 关系链                                 |
+| 微服务链路追踪 | skywalking                                   | 链路追踪                               |
+| 微服务限流     | sentinel                                     | 微服务稳定性，限流，降级，防止服务雪崩 |
 
 ## 工程化
 
