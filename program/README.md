@@ -79,7 +79,7 @@
 
 | 领域分类       | 链接                                         |
 | :------------- | :------------------------------------------- |
-| web            | [nginx](middleware/nginx.md)                 |
+| web 服务器     | [nginx](middleware/nginx.md)                 |
 | 消息队列       | [kafka](middleware/kafka.md)                 |
 | 调试分析       | [arthas](middleware/arthas.md)               |
 | 数据库         | [mysql](middleware/mysql.md)                 |
@@ -87,10 +87,12 @@
 | 搜索           | [elasticsearch](middleware/elasticsearch.md) |
 | 流媒体         | [ffmpeg](middleware/ffmpeg.md)               |
 | 分布式事务     | [Seata](middleware/seata.md)                 |
-| 大数据（TODO） | spark, flink                                 |
+| 流式计算       | flink                                        |
 | 时序数据库     | [influx](middleware/influx.md)               |
 | nosql          | [mongodb](middleware/mongo.md)               |
 | 安全           | openRASP                                     |
+| 向量检索       | [milvus](middleware/milvus.md)               |
+| 微服务链路追踪 | skywalking                                   |
 
 ## 工程化
 
