@@ -2,11 +2,11 @@
 
 <!-- ![](earth.gif) -->
 
+## [产品](product/readme.md)
+
 ## [技术](program/README.md)
 
-## [项目](pmp/README.md)
-
-## [产品](product/readme.md)
+## [项目管理](pmp/README.md)
 
 ---
 
