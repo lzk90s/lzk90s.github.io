@@ -2,13 +2,7 @@
 
 # 知识地图
 
-> 记录自己平时的一些总结
-
-- 技术篇
-- 团队管理篇
-- 项目管理篇
-- 效率工具篇
-- 方法论篇
+> 昨天最好的表现是今天最低的要求
 
 [GitHub](https://github.com/lzk90s/lzk90s.github.io.git)
 [Get Started](README.md)

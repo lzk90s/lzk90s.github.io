@@ -4,6 +4,8 @@
 
 ## BRD: business requirement document
 
+[模板](brd_template.md)
+
 面向的角色
 
 - CEO
@@ -17,11 +19,15 @@
 
 ## MRD: market requirement document
 
+[模板](mrd_template.md)
+
 面向的角色
 
 - 销售 BD
 
 ## PRD: product requirement document
+
+[模板](prd_template.md)
 
 面向的角色
 
@@ -31,6 +37,8 @@
 - 测试
 
 ## TDD: technology design document
+
+[模板](tdd_template.md)
 
 - 前端开发
 - 后端开发
