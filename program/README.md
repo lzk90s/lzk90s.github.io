@@ -1,6 +1,6 @@
 # 开发技术篇
 
-![program](program.svg)
+![program](program.drawio.svg)
 
 ## 硬件
 
