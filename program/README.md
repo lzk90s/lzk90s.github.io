@@ -1,6 +1,6 @@
 # 开发技术篇
 
-![summary](summary.svg)
+![program](program.svg)
 
 ## 硬件
 
