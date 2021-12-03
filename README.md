@@ -2,7 +2,7 @@
 
 <!-- ![](earth.gif) -->
 
-![summary](summary.svg)
+![summary](summary.drawio.svg)
 
 - [产品领域](product/readme.md)
 - [技术领域](program/README.md)
