@@ -4,9 +4,9 @@
 
 ![summary](summary.drawio.svg)
 
-- [产品领域](product/readme.md)
+- [产品领域（0-1）](product/readme.md)
+- [运营营销领域（1-100）](operation/README.md)
 - [技术领域](program/README.md)
-- [项目领域](pmp/README.md)
 
 ---
 
